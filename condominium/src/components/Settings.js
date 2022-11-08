@@ -126,14 +126,7 @@ function Demo({ title, theme }) {
 function Demos() {
   return (
     <Wrapper>
-      <Heading button={true}>Select a demo</Heading>
-
-      <Box px={4} my={3}>
-        <Alert icon={false} severity="info">
-          <strong>Hello!</strong> Select your style below. Choose the ones that
-          best fits your needs.
-        </Alert>
-      </Box>
+      <Heading button={true}>Elige un tema</Heading>
 
       <Box px={4} my={3}>
         <Grid container spacing={3}>
@@ -144,32 +137,6 @@ function Demos() {
           <Demo title="Green" theme={THEMES.GREEN} />
           <Demo title="Indigo" theme={THEMES.INDIGO} />
         </Grid>
-      </Box>
-
-      <Box my={3} mx={4}>
-        <Button
-          component={Link}
-          to="/documentation/welcome"
-          variant="outlined"
-          color="default"
-          size="large"
-          target="_blank"
-          fullWidth={true}
-        >
-          Documentation
-        </Button>
-      </Box>
-      <Box my={3} mx={4}>
-        <Button
-          href="https://material-ui.com/store/items/material-app/"
-          variant="contained"
-          color="primary"
-          size="large"
-          target="_blank"
-          fullWidth={true}
-        >
-          Get Material App
-        </Button>
       </Box>
     </Wrapper>
   );

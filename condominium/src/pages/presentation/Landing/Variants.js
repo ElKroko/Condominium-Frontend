@@ -60,7 +60,7 @@ const Demo = ({ theme, title, img, newDemo = false }) => {
 
   const toggleDemo = (theme) => {
     dispatch(setTheme(theme));
-    history.push("/dashboard/analytics");
+    history.push("/inicio");
   };
 
   return (
