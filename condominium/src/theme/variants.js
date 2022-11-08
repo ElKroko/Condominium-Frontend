@@ -122,7 +122,7 @@ const lightVariant = merge(defaultVariant, {
       color: "#FFF",
       background: customBlue[800],
       brand: {
-        color: "#FFFFFF",
+        color: customBlue[800],
       },
     },
     footer: {
@@ -147,7 +147,7 @@ const blueVariant = merge(defaultVariant, {
       color: "#FFF",
       background: customBlue[800],
       brand: {
-        color: "#FFFFFF",
+        color: customBlue[800],
       },
     },
     footer: {
@@ -188,7 +188,7 @@ const greenVariant = merge(defaultVariant, {
       color: "#FFF",
       background: green[800],
       brand: {
-        color: "#FFFFFF",
+        color: green[800],
       },
     },
     footer: {
@@ -229,7 +229,7 @@ const indigoVariant = merge(defaultVariant, {
       color: "#FFF",
       background: indigo[800],
       brand: {
-        color: "#FFFFFF",
+        color: indigo[800],
       },
     },
     footer: {
