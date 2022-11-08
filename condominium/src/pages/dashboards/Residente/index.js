@@ -5,8 +5,6 @@ import { ReactComponent as GastosSVG } from "../../../vendor/logo.svg";
 
 import { Helmet } from "react-helmet";
 
-import { Palette } from "@material-ui/icons";
-
 import {
   Avatar as MuiAvatar,
   Box,
@@ -17,23 +15,14 @@ import {
   CardContent,
   Link,
   SvgIcon,
+  Paper,
 } from "@material-ui/core";
 
-import {
-  Briefcase,
-  DollarSign,
-  ExternalLink,
-  Facebook,
-  Home,
-  Instagram,
-  MapPin,
-  ShoppingBag,
-  Twitter,
-} from "react-feather";
+import { DollarSign, Home } from "react-feather";
 
 import { spacing } from "@material-ui/system";
 
-import Projects from "../../pages/Projects";
+import Noticias from "./Noticias";
 
 const Divider = styled(MuiDivider)(spacing);
 
@@ -47,8 +36,20 @@ const CustomCard = styled(CardContent)`
   padding: ${(props) => props.theme.spacing(2)}px;
 `;
 
+const Avatar = styled(MuiAvatar)`
+  min-width: 150px;
+  min-height: 150px;
+`;
+
+const Perfil = styled(Card)`
+  text-align: center;
+  justify-content: center;
+  display: flex;
+  padding: ${(props) => props.theme.spacing(2)}px;
+`;
+
 const SecondaryCard = styled(CardContent)`
-  background: ${(props) => props.theme.palette.info.main};
+  background: ${(props) => props.theme.palette.secondary.main};
   color: ${(props) => props.theme.palette.info.contrastText};
   padding: ${(props) => props.theme.spacing(2)}px;
 `;
@@ -57,35 +58,23 @@ const Centered = styled.div`
   text-align: center;
 `;
 
-const Avatar = styled(MuiAvatar)`
-  height: 128px;
-  width: 128px;
-  display: flex;
-`;
-
 function Details() {
   return (
-    <Card mb={6}>
+    <Perfil mb={6} style={{ boxShadow: 3 }}>
       <CardContent>
-        <Typography variant="h6" gutterBottom>
+        <Typography variant="h3" gutterBottom>
           Perfil
         </Typography>
 
         <Spacer mb={4} />
-
-        <Centered>
-          <Avatar
-            alt="Lucy Lavender"
-            src="/static/img/avatars/avatar-1.jpg"
-            style={{ justifyContent: "center", display: "flex" }}
-          />
-          <Typography variant="body2" component="div" gutterBottom>
-            <Box fontWeight="fontWeightMedium">Don Jose</Box>
-            <Box fontWeight="fontWeightRegular">Residente</Box>
-          </Typography>
-        </Centered>
+        <Avatar alt="Lucy Lavender" src="/static/img/avatars/avatar-2.jpg" />
+        <Spacer mb={5} />
+        <Typography variant="body2" component="div" gutterBottom>
+          <Box fontWeight="fontWeightMedium">Don Jose</Box>
+          <Box fontWeight="fontWeightRegular">Residente</Box>
+        </Typography>
       </CardContent>
-    </Card>
+    </Perfil>
   );
 }
 
@@ -161,7 +150,7 @@ function Deuda() {
 
 function GastosComunes() {
   return (
-    <Link href="">
+    <Link href="/gastos">
       <Card mb={6} variant="outlined">
         <CustomCard>
           <Centered>
@@ -189,7 +178,7 @@ function ReservarEspacio() {
               viewBox="0 0 50 50"
               style={{ fontSize: 80, color: "primary.contrastText" }}
             />
-            <Typography variant="h3"> ReservarEspacio</Typography>
+            <Typography variant="h3"> Reservar Espacio</Typography>
           </Centered>
         </SecondaryCard>
       </Card>
@@ -216,29 +205,23 @@ function ResidenteDashboard() {
       </Grid>
 
       <Divider my={6} />
-
+      <Spacer mb={5} />
       <Grid container spacing={6}>
         <Grid item xs={12} lg={8}>
-          <Spacer mb={5} />
           <Typography variant="h4" gutterBottom>
             {" "}
             Avisos a la Comunidad:
           </Typography>
-          <Projects />
+          <Noticias />
           <Spacer mb={5} />
           <Grid container spacing={6}>
+            <Grid item xs={12} lg={1}></Grid>
             <Grid item xs={12} lg={4}>
               <GastosComunes />
             </Grid>
+            <Grid item xs={12} lg={2}></Grid>
             <Grid item xs={12} lg={4}>
               <ReservarEspacio />
-            </Grid>
-            <Grid item xs={12} lg={4}>
-              <Card mb={6} pt={2}>
-                <CardContent>
-                  <Typography variant="h3"> Hola!</Typography>
-                </CardContent>
-              </Card>
             </Grid>
           </Grid>
         </Grid>
