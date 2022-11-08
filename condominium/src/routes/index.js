@@ -50,6 +50,7 @@ const Tooltips = async(() => import("../pages/components/Tooltips"));
 const Default = async(() => import("../pages/dashboards/Default"));
 const Analytics = async(() => import("../pages/dashboards/Analytics"));
 const SaaS = async(() => import("../pages/dashboards/SaaS"));
+const ResidenteDashboard = async(() => import("../pages/dashboards/Residente"));
 
 // Forms components
 const Pickers = async(() => import("../pages/forms/Pickers"));
@@ -516,15 +517,6 @@ const documentationRoutes = {
   component: null,
 };
 
-const changelogRoutes = {
-  id: "Changelog",
-  path: "/changelog",
-  badge: "v2.0.0",
-  icon: <List />,
-  component: Changelog,
-  children: null,
-};
-
 // This route is only visible while signed in
 const protectedPageRoutes = {
   id: "Private",
@@ -534,8 +526,18 @@ const protectedPageRoutes = {
   guard: AuthGuard,
 };
 
+const ResidenteRoutes = {
+  id: "Inicio",
+  path: "/inicio",
+  icon: <Sliders />,
+  containsHome: true,
+  children: null,
+  component: ResidenteDashboard,
+};
+
 // Routes using the Dashboard layout
 export const dashboardLayoutRoutes = [
+  ResidenteRoutes,
   dashboardsRoutes,
   pagesRoutes,
   projectsRoutes,
@@ -550,7 +552,6 @@ export const dashboardLayoutRoutes = [
   iconsRoutes,
   mapsRoutes,
   documentationRoutes,
-  changelogRoutes,
 ];
 
 // Routes using the Auth layout
@@ -563,21 +564,24 @@ export const presentationLayoutRoutes = [landingRoutes];
 export const protectedRoutes = [protectedPageRoutes];
 
 // Routes visible in the sidebar
-export const sidebarRoutes = [
-  dashboardsRoutes,
-  pagesRoutes,
-  projectsRoutes,
-  orderRoutes,
-  invoiceRoutes,
-  tasksRoutes,
-  calendarRoutes,
-  authRoutes,
-  componentsRoutes,
-  chartRoutes,
-  formsRoutes,
-  tablesRoutes,
-  iconsRoutes,
-  mapsRoutes,
-  documentationRoutes,
-  changelogRoutes,
-];
+
+export const sidebarRoutes = [ResidenteRoutes];
+
+// export const sidebarRoutes = [
+//   misRutas,
+//   dashboardsRoutes,
+//   pagesRoutes,
+//   projectsRoutes,
+//   orderRoutes,
+//   invoiceRoutes,
+//   tasksRoutes,
+//   calendarRoutes,
+//   authRoutes,
+//   componentsRoutes,
+//   chartRoutes,
+//   formsRoutes,
+//   tablesRoutes,
+//   iconsRoutes,
+//   mapsRoutes,
+//   documentationRoutes,
+// ];

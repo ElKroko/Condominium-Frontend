@@ -1,31 +1,23 @@
 import React from "react";
 import styled from "styled-components/macro";
-import { NavLink } from "react-router-dom";
-
-import Helmet from "react-helmet";
 
 import {
   Avatar,
-  Breadcrumbs as MuiBreadcrumbs,
   Button,
   Card as MuiCard,
   CardActions,
   CardContent as MuiCardContent,
   CardMedia as MuiCardMedia,
   Chip as MuiChip,
-  Divider as MuiDivider,
   Grid,
-  Link,
   Typography as MuiTypography,
 } from "@material-ui/core";
 
 import { AvatarGroup as MuiAvatarGroup } from "@material-ui/lab";
 
-import { red, green, orange } from "@material-ui/core/colors";
+import { green, orange } from "@material-ui/core/colors";
 
 import { spacing } from "@material-ui/system";
-
-const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
 
 const Card = styled(MuiCard)(spacing);
 
@@ -36,8 +28,6 @@ const CardContent = styled(MuiCardContent)`
 const CardMedia = styled(MuiCardMedia)`
   height: 220px;
 `;
-
-const Divider = styled(MuiDivider)(spacing);
 
 const Typography = styled(MuiTypography)(spacing);
 
@@ -54,12 +44,11 @@ const AvatarGroup = styled(MuiAvatarGroup)`
   margin-left: ${(props) => props.theme.spacing(2)}px;
 `;
 
-function Project({ image, title, description, chip }) {
+function Project({ title, description, chip }) {
   return (
     <Card mb={6}>
-      {image ? <CardMedia image={image} title="Contemplative Reptile" /> : null}
       <CardContent>
-        <Typography gutterBottom variant="h5" component="h2">
+        <Typography variant="h5" component="h2">
           {title}
         </Typography>
 
@@ -70,17 +59,12 @@ function Project({ image, title, description, chip }) {
         </Typography>
 
         <AvatarGroup max={3}>
-          <Avatar alt="Avatar" src="/static/img/avatars/avatar-1.jpg" />
           <Avatar alt="Avatar" src="/static/img/avatars/avatar-2.jpg" />
-          <Avatar alt="Avatar" src="/static/img/avatars/avatar-3.jpg" />
         </AvatarGroup>
       </CardContent>
       <CardActions>
         <Button size="small" color="primary">
-          Share
-        </Button>
-        <Button size="small" color="primary">
-          Learn More
+          Ver más
         </Button>
       </CardActions>
     </Card>
@@ -90,83 +74,33 @@ function Project({ image, title, description, chip }) {
 function Projects() {
   return (
     <React.Fragment>
-      <Helmet title="Projects" />
-
-      <Typography variant="h3" gutterBottom display="inline">
-        Projects
-      </Typography>
-
-      <Breadcrumbs aria-label="Breadcrumb" mt={2}>
-        <Link component={NavLink} exact to="/">
-          Dashboard
-        </Link>
-        <Link component={NavLink} exact to="/">
-          Pages
-        </Link>
-        <Typography>Projects</Typography>
-      </Breadcrumbs>
-
-      <Divider my={6} />
-
-      <Grid container spacing={6}>
+      <Grid container spacing={4}>
         <Grid item xs={12} lg={6} xl={3}>
           <Project
-            title="Landing page redesign"
+            title="Saludo de Administracion"
             description="Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum."
-            chip={<Chip label="Finished" rgbcolor={green[500]} />}
+            chip={<Chip label="Conserjeria" rgbcolor={green[500]} />}
           />
         </Grid>
         <Grid item xs={12} lg={6} xl={3}>
           <Project
-            title="Company posters"
+            title="Corte de Agua"
             description="Curabitur ligula sapien, tincidunt non, euismod vitae, posuere imperdiet, leo. Maecenas malesuada. Praesent congue erat at massa."
-            chip={<Chip label="In progress" rgbcolor={orange[500]} />}
+            chip={<Chip label="Administracion" rgbcolor={orange[500]} />}
           />
         </Grid>
         <Grid item xs={12} lg={6} xl={3}>
           <Project
-            title="Product page design"
+            title="Paso algo feo"
             description="Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum."
-            chip={<Chip label="Finished" rgbcolor={green[500]} />}
+            chip={<Chip label="Noticias" rgbcolor={green[500]} />}
           />
         </Grid>
         <Grid item xs={12} lg={6} xl={3}>
           <Project
-            title="Upgrade CRM software"
+            title="Puede que pase algo feo!"
             description="Nam pretium turpis et arcu. Duis arcu tortor, suscipit eget, imperdiet nec, imperdiet iaculis, ipsum. Sed aliquam ultrices mauris."
-            chip={<Chip label="In progress" rgbcolor={orange[500]} />}
-          />
-        </Grid>
-        <Grid item xs={12} lg={6} xl={3}>
-          <Project
-            title="Fix form validation"
-            description="Nam pretium turpis et arcu. Duis arcu tortor, suscipit eget, imperdiet nec, imperdiet iaculis, ipsum. Sed aliquam ultrices mauris."
-            chip={<Chip label="In progress" rgbcolor={orange[500]} />}
-            image="/static/img/unsplash/unsplash-1.jpg"
-          />
-        </Grid>
-        <Grid item xs={12} lg={6} xl={3}>
-          <Project
-            title="New company logo"
-            description="Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum."
-            chip={<Chip label="On hold" rgbcolor={red[500]} />}
-            image="/static/img/unsplash/unsplash-2.jpg"
-          />
-        </Grid>
-        <Grid item xs={12} lg={6} xl={3}>
-          <Project
-            title="Upgrade to latest Maps API"
-            description="Nam pretium turpis et arcu. Duis arcu tortor, suscipit eget, imperdiet nec, imperdiet iaculis, ipsum. Sed aliquam ultrices mauris."
-            chip={<Chip label="Finished" rgbcolor={green[500]} />}
-            image="/static/img/unsplash/unsplash-3.jpg"
-          />
-        </Grid>
-        <Grid item xs={12} lg={6} xl={3}>
-          <Project
-            title="Refactor backend templates"
-            description="Curabitur ligula sapien, tincidunt non, euismod vitae, posuere imperdiet, leo. Maecenas malesuada. Praesent congue erat at massa."
-            chip={<Chip label="On hold" rgbcolor={red[500]} />}
-            image="/static/img/unsplash/unsplash-4.jpg"
+            chip={<Chip label="Noticias" rgbcolor={orange[500]} />}
           />
         </Grid>
       </Grid>

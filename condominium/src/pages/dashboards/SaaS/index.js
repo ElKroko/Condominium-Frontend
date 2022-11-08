@@ -31,10 +31,10 @@ function SaaS() {
       <Grid justify="space-between" container spacing={6}>
         <Grid item>
           <Typography variant="h3" gutterBottom>
-            SaaS Dashboard
+            Dashboard
           </Typography>
           <Typography variant="subtitle1">
-            Welcome back, Lucy! We've missed you.{" "}
+            Bienvenido Don Jose! Te extrañamos.{" "}
             <span role="img" aria-label="Waving Hand Sign">
               👋
             </span>

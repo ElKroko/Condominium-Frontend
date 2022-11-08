@@ -89,18 +89,18 @@ const AppBarComponent = ({ onDrawerToggle }) => (
             </Grid>
           </Hidden>
           <Grid item>
-            <Search>
+            {/* Aqui tiene que ir el condominio! */}
+            {/* <Search>
               <SearchIconWrapper>
                 <SearchIcon />
               </SearchIconWrapper>
               <Input placeholder="Search topics" />
-            </Search>
+            </Search> */}
           </Grid>
           <Grid item xs />
           <Grid item>
             <MessagesDropdown />
             <NotificationsDropdown />
-            <LanguagesDropdown />
             <UserDropdown />
           </Grid>
         </Grid>

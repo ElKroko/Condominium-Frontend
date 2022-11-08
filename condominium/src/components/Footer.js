@@ -12,7 +12,7 @@ import {
 const Wrapper = styled.div`
   padding: ${(props) => props.theme.spacing(1) / 4}px
     ${(props) => props.theme.spacing(4)}px;
-  background: ${(props) => props.theme.footer.background};
+  background: ${(props) => props.theme.palette.primary.main};
   position: relative;
 `;
 
@@ -30,7 +30,7 @@ const ListItem = styled(MuiListItem)`
 
 const ListItemText = styled(MuiListItemText)`
   span {
-    color: ${(props) => props.theme.footer.color};
+    color: ${(props) => props.theme.palette.primary.contrastText};
   }
 `;
 
@@ -38,29 +38,11 @@ function Footer() {
   return (
     <Wrapper>
       <Grid container spacing={0}>
-        <Hidden smDown>
-          <Grid container item xs={12} md={6}>
-            <List>
-              <ListItem button={true} component="a" href="#">
-                <ListItemText primary="Support" />
-              </ListItem>
-              <ListItem button={true} component="a" href="#">
-                <ListItemText primary="Help Center" />
-              </ListItem>
-              <ListItem button={true} component="a" href="#">
-                <ListItemText primary="Privacy" />
-              </ListItem>
-              <ListItem button={true} component="a" href="#">
-                <ListItemText primary="Terms of Service" />
-              </ListItem>
-            </List>
-          </Grid>
-        </Hidden>
         <Grid container item xs={12} md={6} justify="flex-end">
           <List>
             <ListItem button={true}>
               <ListItemText
-                primary={`© ${new Date().getFullYear()} - Material App`}
+                primary={`© ${new Date().getFullYear()} - Condominium`}
               />
             </ListItem>
           </List>
