@@ -398,7 +398,7 @@ const Sidebar = ({ classes, staticContext, location, ...rest }) => {
             >
               <Avatar
                 alt="Lucy Lavender"
-                src="/static/img/avatars/avatar-1.jpg"
+                src="/static/img/avatars/avatar-2.jpg"
               />
             </SidebarFooterBadge>
           </Grid>

@@ -45,18 +45,18 @@ function SignIn() {
   return (
     <Wrapper>
       <Helmet title="Sign In" />
-      <BigAvatar alt="Lucy" src="/static/img/avatars/avatar-1.jpg" />
+      <BigAvatar alt="Lucy" src="/static/img/avatars/avatar-2.jpg" />
 
       <Typography component="h1" variant="h4" align="center" gutterBottom>
-        Welcome back, Lucy!
+        Bienvenida/o!
       </Typography>
       <Typography component="h2" variant="body1" align="center">
-        Sign in to your account to continue
+        Inicia sesión para continuar
       </Typography>
 
       <Formik
         initialValues={{
-          email: "demo@bootlab.io",
+          email: "jose@condominium.io",
           password: "unsafepassword",
           submit: false,
         }}
@@ -64,8 +64,8 @@ function SignIn() {
           email: Yup.string()
             .email("Must be a valid email")
             .max(255)
-            .required("Email is required"),
-          password: Yup.string().max(255).required("Password is required"),
+            .required("Email requerido"),
+          password: Yup.string().max(255).required("Password requerida"),
         })}
         onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
           try {
@@ -93,8 +93,8 @@ function SignIn() {
         }) => (
           <form noValidate onSubmit={handleSubmit}>
             <Alert mt={3} mb={1} severity="info">
-              Use <strong>demo@bootlab.io</strong> and{" "}
-              <strong>unsafepassword</strong> to sign in
+              Usa <strong>jose@condominium.io</strong> and{" "}
+              <strong>unsafepassword</strong> para iniciar sesión
             </Alert>
             {errors.submit && (
               <Alert mt={2} mb={1} severity="warning">
@@ -104,7 +104,7 @@ function SignIn() {
             <TextField
               type="email"
               name="email"
-              label="Email Address"
+              label="Correo Electrónico"
               value={values.email}
               error={Boolean(touched.email && errors.email)}
               fullWidth
@@ -116,7 +116,7 @@ function SignIn() {
             <TextField
               type="password"
               name="password"
-              label="Password"
+              label="Contraseña"
               value={values.password}
               error={Boolean(touched.password && errors.password)}
               fullWidth
@@ -127,7 +127,7 @@ function SignIn() {
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
+              label="Recuérdame"
             />
             <Button
               type="submit"
@@ -136,7 +136,7 @@ function SignIn() {
               color="primary"
               disabled={isSubmitting}
             >
-              Sign in
+              Iniciar Sesión
             </Button>
             <Button
               component={Link}
@@ -144,7 +144,7 @@ function SignIn() {
               fullWidth
               color="primary"
             >
-              Forgot password
+              Olvidé mi contraseña :c
             </Button>
           </form>
         )}
