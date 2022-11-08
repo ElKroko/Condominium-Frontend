@@ -30,6 +30,12 @@ const ResetPassword = async(() => import("../pages/auth/ResetPassword"));
 const Page404 = async(() => import("../pages/auth/Page404"));
 const Page500 = async(() => import("../pages/auth/Page500"));
 
+// My Components!!!
+const ResidenteDashboard = async(() => import("../pages/dashboards/Residente"));
+const GastosComunesTable = async(() =>
+  import("../pages/tables/GastosComunesTable")
+);
+
 // Components components
 const Alerts = async(() => import("../pages/components/Alerts"));
 const Avatars = async(() => import("../pages/components/Avatars"));
@@ -50,7 +56,6 @@ const Tooltips = async(() => import("../pages/components/Tooltips"));
 const Default = async(() => import("../pages/dashboards/Default"));
 const Analytics = async(() => import("../pages/dashboards/Analytics"));
 const SaaS = async(() => import("../pages/dashboards/SaaS"));
-const ResidenteDashboard = async(() => import("../pages/dashboards/Residente"));
 
 // Forms components
 const Pickers = async(() => import("../pages/forms/Pickers"));
@@ -529,15 +534,25 @@ const protectedPageRoutes = {
 const ResidenteRoutes = {
   id: "Inicio",
   path: "/inicio",
-  icon: <Sliders />,
+  icon: <Monitor />,
   containsHome: true,
   children: null,
   component: ResidenteDashboard,
 };
 
+const GastosComunesRoutes = {
+  id: "Gastos",
+  path: "/gastos",
+  icon: <List />,
+  containsHome: true,
+  children: null,
+  component: GastosComunesTable,
+};
+
 // Routes using the Dashboard layout
 export const dashboardLayoutRoutes = [
   ResidenteRoutes,
+  GastosComunesRoutes,
   dashboardsRoutes,
   pagesRoutes,
   projectsRoutes,
@@ -565,7 +580,7 @@ export const protectedRoutes = [protectedPageRoutes];
 
 // Routes visible in the sidebar
 
-export const sidebarRoutes = [ResidenteRoutes];
+export const sidebarRoutes = [ResidenteRoutes, GastosComunesRoutes];
 
 // export const sidebarRoutes = [
 //   misRutas,
