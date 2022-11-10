@@ -18,6 +18,7 @@ import {
   DialogActions,
   Breadcrumbs as MuiBreadcrumbs,
   Divider as MuiDivider,
+  InputLabel,
   Paper as MuiPaper,
   Table,
   TableBody,
@@ -27,6 +28,7 @@ import {
   TablePagination,
   TableRow,
   TableSortLabel,
+  TextField,
   Toolbar,
   Tooltip,
   Typography,
@@ -378,6 +380,20 @@ function EnhancedTable() {
 }
 
 function EventosTable() {
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleSend = () => {
+    setOpen(false);
+  };
+
   return (
     <React.Fragment>
       <Helmet title="Registro eventos" />
@@ -399,12 +415,56 @@ function EventosTable() {
             <Button
               variant="contained"
               endIcon={<InputSharp />}
+              onClick={handleClickOpen}
               color="primary"
             >
               Ingresar evento
             </Button>
           </Box>
         </Grid>
+
+        <Dialog open={open} onClose={handleClose}>
+          <DialogTitle>Ingresar Evento</DialogTitle>
+          <DialogContent>
+            <InputLabel shrink>Nombre</InputLabel>
+            <TextField
+              autoFocus
+              margin="dense"
+              id="name"
+              type="text"
+              fullWidth
+              variant="outlined"
+            />
+            <InputLabel shrink>Tipo</InputLabel>
+            <TextField
+              margin="dense"
+              id="type"
+              type="txt"
+              fullWidth
+              variant="outlined"
+            />
+            <InputLabel shrink>Fecha</InputLabel>
+            <TextField
+              margin="dense"
+              id="date"
+              type="date"
+              fullWidth
+              variant="outlined"
+            />
+            <InputLabel shrink>Responsable</InputLabel>
+            <TextField
+              margin="dense"
+              id="officer"
+              type="text"
+              fullWidth
+              variant="outlined"
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose}>Cancelar</Button>
+            <Button onClick={handleSend}>Enviar</Button>
+          </DialogActions>
+        </Dialog>
 
         <Grid item xs={12} lg={1}></Grid>
       </Grid>
