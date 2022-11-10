@@ -214,7 +214,7 @@ function ResidenteDashboard() {
             Avisos a la Comunidad:
           </Typography>
           <Noticias />
-          <Spacer mb={5} />
+          <Spacer mb={30} />
           <Grid container spacing={6}>
             <Grid item xs={12} lg={1} />
             <Grid item xs={12} lg={4}>
