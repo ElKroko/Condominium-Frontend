@@ -5,10 +5,16 @@ import { NavLink } from "react-router-dom";
 import Helmet from "react-helmet";
 
 import {
+  Button,
   Checkbox,
   Grid,
   IconButton,
   Link,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
   Breadcrumbs as MuiBreadcrumbs,
   Divider as MuiDivider,
   Paper as MuiPaper,
@@ -23,6 +29,7 @@ import {
   Toolbar,
   Tooltip,
   Typography,
+  Slide,
 } from "@material-ui/core";
 
 import {
@@ -187,6 +194,10 @@ let EnhancedTableToolbar = (props) => {
   );
 };
 
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+
 function EnhancedTable() {
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("tipo");
@@ -194,6 +205,14 @@ function EnhancedTable() {
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -211,23 +230,30 @@ function EnhancedTable() {
   };
 
   const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
-    let newSelected = [];
+    if (
+      event.target.tagName !== "path" &&
+      event.target.tagName !== "svg" &&
+      event.target.tagName !== "BUTTON"
+    ) {
+      const selectedIndex = selected.indexOf(name);
+      let newSelected = [];
+      console.log(event);
 
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
-      );
+      if (selectedIndex === -1) {
+        newSelected = newSelected.concat(selected, name);
+      } else if (selectedIndex === 0) {
+        newSelected = newSelected.concat(selected.slice(1));
+      } else if (selectedIndex === selected.length - 1) {
+        newSelected = newSelected.concat(selected.slice(0, -1));
+      } else if (selectedIndex > 0) {
+        newSelected = newSelected.concat(
+          selected.slice(0, selectedIndex),
+          selected.slice(selectedIndex + 1)
+        );
+      }
+
+      setSelected(newSelected);
     }
-
-    setSelected(newSelected);
   };
 
   const handleChangePage = (event, newPage) => {
@@ -300,7 +326,7 @@ function EnhancedTable() {
                       <TableCell align="right">{row.tipo}</TableCell>
                       <TableCell align="right">{row.vencimiento}</TableCell>
                       <TableCell align="right">${row.monto}</TableCell>
-                      <IconButton edge="false">
+                      <IconButton onClick={handleClickOpen} edge="false">
                         <Visibility />
                       </IconButton>
                     </TableRow>
@@ -313,6 +339,25 @@ function EnhancedTable() {
               )}
             </TableBody>
           </Table>
+          <Dialog
+            open={open}
+            TransitionComponent={Transition}
+            keepMounted
+            onClose={handleClose}
+            aria-describedby="alert-dialog-slide-description"
+          >
+            <DialogTitle>{"Use Google's location service?"}</DialogTitle>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-slide-description">
+                Let Google help apps determine location. This means sending
+                anonymous location data to Google, even when no apps are
+                running.
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClose}>Listo</Button>
+            </DialogActions>
+          </Dialog>
         </TableContainer>
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
