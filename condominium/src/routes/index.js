@@ -20,6 +20,8 @@ import {
   Users,
 } from "react-feather";
 
+import { Pool } from "@material-ui/icons";
+
 // Guards
 const AuthGuard = async(() => import("../components/AuthGuard"));
 
@@ -31,9 +33,15 @@ const Page404 = async(() => import("../pages/auth/Page404"));
 const Page500 = async(() => import("../pages/auth/Page500"));
 
 // My Components!!!
-const ResidenteDashboard = async(() => import("../pages/dashboards/Residente"));
+const ResidenteDashboard = async(() =>
+  import("../pages/condominium/Residente")
+);
 const GastosComunesTable = async(() =>
-  import("../pages/tables/GastosComunesTable")
+  import("../pages/condominium/GastosComunes/GastosComunesTable")
+);
+
+const EspaciosMain = async(() =>
+  import("../pages/condominium/Espacios/EspaciosMain")
 );
 
 // Components components
@@ -549,24 +557,34 @@ const GastosComunesRoutes = {
   component: GastosComunesTable,
 };
 
+const EspaciosRoutes = {
+  id: "Espacios",
+  path: "/espacios",
+  icon: <Pool />,
+  containsHome: true,
+  children: null,
+  component: EspaciosMain,
+};
+
 // Routes using the Dashboard layout
 export const dashboardLayoutRoutes = [
   ResidenteRoutes,
   GastosComunesRoutes,
-  dashboardsRoutes,
-  pagesRoutes,
-  projectsRoutes,
-  orderRoutes,
-  invoiceRoutes,
-  tasksRoutes,
-  calendarRoutes,
-  componentsRoutes,
-  chartRoutes,
-  formsRoutes,
-  tablesRoutes,
-  iconsRoutes,
-  mapsRoutes,
-  documentationRoutes,
+  EspaciosRoutes,
+  // dashboardsRoutes,
+  // pagesRoutes,
+  // projectsRoutes,
+  // orderRoutes,
+  // invoiceRoutes,
+  // tasksRoutes,
+  // calendarRoutes,
+  // componentsRoutes,
+  // chartRoutes,
+  // formsRoutes,
+  // tablesRoutes,
+  // iconsRoutes,
+  // mapsRoutes,
+  // documentationRoutes,
 ];
 
 // Routes using the Auth layout
@@ -580,7 +598,11 @@ export const protectedRoutes = [protectedPageRoutes];
 
 // Routes visible in the sidebar
 
-export const sidebarRoutes = [ResidenteRoutes, GastosComunesRoutes];
+export const sidebarRoutes = [
+  ResidenteRoutes,
+  GastosComunesRoutes,
+  EspaciosRoutes,
+];
 
 // export const sidebarRoutes = [
 //   misRutas,
