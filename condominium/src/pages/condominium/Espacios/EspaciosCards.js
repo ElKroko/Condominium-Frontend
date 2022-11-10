@@ -52,8 +52,8 @@ function Cards() {
         <Grid item xs={12} md={4}>
           <MediaCard
             espacio="Piscina"
-            descripcion="Lorem id dolore officia commodo ipsum veniam fugiat duis cillum voluptate est ea nulla sit."
-            rutaimg="/static/img/unsplash/unsplash-1.jpg"
+            descripcion="Refréscate en nuestra piscina exclusiva para residentes."
+            rutaimg="/static/img/unsplash/piscina.jpg"
             titleimg="Piscina"
           />
         </Grid>
@@ -61,7 +61,7 @@ function Cards() {
           <MediaCard
             espacio="Salon Multiuso"
             descripcion="Un salon para todos tus eventos."
-            rutaimg="/static/img/unsplash/unsplash-1.jpg"
+            rutaimg="/static/img/unsplash/salon.jpg"
             titleimg="Salon"
           />
         </Grid>

@@ -170,7 +170,7 @@ function GastosComunes() {
 
 function ReservarEspacio() {
   return (
-    <Link href="">
+    <Link href="/espacios">
       <Card mb={6} variant="outlined">
         <SecondaryCard>
           <Centered>
