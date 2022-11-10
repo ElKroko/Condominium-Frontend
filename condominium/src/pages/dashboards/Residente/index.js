@@ -15,7 +15,6 @@ import {
   CardContent,
   Link,
   SvgIcon,
-  Paper,
 } from "@material-ui/core";
 
 import { DollarSign, Home } from "react-feather";
