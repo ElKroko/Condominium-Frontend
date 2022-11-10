@@ -5,6 +5,8 @@ import { ReactComponent as GastosSVG } from "../../../vendor/logo.svg";
 
 import { Helmet } from "react-helmet";
 
+import USAMap from "./USAMap";
+
 import {
   Avatar as MuiAvatar,
   Box,
@@ -214,7 +216,7 @@ function ResidenteDashboard() {
           <Noticias />
           <Spacer mb={5} />
           <Grid container spacing={6}>
-            <Grid item xs={12} lg={1}></Grid>
+            <Grid item xs={12} lg={1} />
             <Grid item xs={12} lg={4}>
               <GastosComunes />
             </Grid>
