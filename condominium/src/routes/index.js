@@ -21,6 +21,7 @@ import {
 } from "react-feather";
 
 import { Pool } from "@material-ui/icons";
+import { EventNote } from "@material-ui/icons";
 
 // Guards
 const AuthGuard = async(() => import("../components/AuthGuard"));
@@ -42,6 +43,9 @@ const GastosComunesTable = async(() =>
 
 const EspaciosMain = async(() =>
   import("../pages/condominium/Espacios/EspaciosMain")
+);
+const EventosTable = async(() =>
+  import("../pages/condominium/Eventos/EventosTable")
 );
 
 // Components components
@@ -566,11 +570,21 @@ const EspaciosRoutes = {
   component: EspaciosMain,
 };
 
+const EventosRoutes = {
+  id: "Eventos",
+  path: "/eventos",
+  icon: <EventNote />,
+  containsHome: true,
+  children: null,
+  component: EventosTable,
+};
+
 // Routes using the Dashboard layout
 export const dashboardLayoutRoutes = [
   ResidenteRoutes,
   GastosComunesRoutes,
   EspaciosRoutes,
+  EventosRoutes,
   // dashboardsRoutes,
   // pagesRoutes,
   // projectsRoutes,
@@ -602,6 +616,7 @@ export const sidebarRoutes = [
   ResidenteRoutes,
   GastosComunesRoutes,
   EspaciosRoutes,
+  EventosRoutes,
 ];
 
 // export const sidebarRoutes = [
