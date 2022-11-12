@@ -71,7 +71,7 @@ function MediaCard({ espacio, descripcion, rutaimg, titleimg }) {
               type="text"
               fullWidth
               variant="outlined"
-              defaultValue="Don Jorge"
+              defaultValue="Don Jose"
             />
             <InputLabel shrink>Fecha a usar el espacio</InputLabel>
             <TextField
