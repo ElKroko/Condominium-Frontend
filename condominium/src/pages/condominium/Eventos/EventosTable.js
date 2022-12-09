@@ -43,6 +43,7 @@ import {
 
 import { spacing } from "@material-ui/system";
 import { InputSharp } from "@material-ui/icons";
+import { gql, useMutation } from "@apollo/client";
 const Divider = styled(MuiDivider)(spacing);
 
 const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
@@ -56,6 +57,17 @@ const Spacer = styled.div`
 function createData(name, tipo, fecha, responsable) {
   return { name, tipo, fecha, responsable };
 }
+
+const ADD_EVENT = gql`
+  mutation AddEvento($input: EventoInput) {
+    addEvento(input: $input) {
+      fecha
+      glosa
+      responsable
+      tipo
+    }
+  }
+`;
 
 const rows = [
   createData("Uso piscina", "Uso espacio", "25/03/2022", "Rubeus Hagrid"),
@@ -381,6 +393,11 @@ function EnhancedTable() {
 
 function EventosTable() {
   const [open, setOpen] = React.useState(false);
+  const [addEvent, { data, error }] = useMutation(ADD_EVENT);
+  const nombreRef = React.useRef(null);
+  const tipoRef = React.useRef(null);
+  const dateRef = React.useRef(null);
+  const responsableRef = React.useRef(null);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -390,7 +407,18 @@ function EventosTable() {
     setOpen(false);
   };
 
-  const handleSend = () => {
+  const handleSend = (e) => {
+    e.preventDefault();
+    addEvent({
+      variables: {
+        input: {
+          glosa: nombreRef.current.value,
+          tipo: tipoRef.current.value,
+          fecha: dateRef.current.value,
+          responsable: responsableRef.current.value,
+        },
+      },
+    });
     setOpen(false);
   };
 
@@ -429,6 +457,7 @@ function EventosTable() {
             <InputLabel shrink>Nombre</InputLabel>
             <TextField
               autoFocus
+              inputRef={nombreRef}
               margin="dense"
               id="name"
               type="text"
@@ -437,6 +466,7 @@ function EventosTable() {
             />
             <InputLabel shrink>Tipo</InputLabel>
             <TextField
+              inputRef={tipoRef}
               margin="dense"
               id="type"
               type="txt"
@@ -445,6 +475,7 @@ function EventosTable() {
             />
             <InputLabel shrink>Fecha</InputLabel>
             <TextField
+              inputRef={dateRef}
               margin="dense"
               id="date"
               type="date"
@@ -453,6 +484,7 @@ function EventosTable() {
             />
             <InputLabel shrink>Responsable</InputLabel>
             <TextField
+              inputRef={responsableRef}
               margin="dense"
               id="officer"
               type="text"

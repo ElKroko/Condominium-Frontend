@@ -39,6 +39,7 @@ import {
 } from "@material-ui/icons";
 
 import { spacing } from "@material-ui/system";
+import { gql, useQuery } from "@apollo/client";
 
 const Divider = styled(MuiDivider)(spacing);
 
@@ -50,25 +51,27 @@ const Spacer = styled.div`
   flex: 1 1 100%;
 `;
 
-function createData(name, tipo, vencimiento, monto) {
-  return { name, tipo, vencimiento, monto };
-}
+const GET_GASTOS = gql`
+  query GetGastos {
+    getGastos {
+      glosa
+      monto
+      tipo
+      vencimiento
+    }
+  }
+`;
 
-const rows = [
-  createData("Enero 2022", "Pagado", "25/02/2022", 120.123),
-  createData("Febrero 2022", "Pagado", "25/03/2022", 120.123),
-  createData("Marzo 2022", "Pagado", "25/04/2022", 120.123),
-  createData("Abril 2022", "Pagado", "25/05/2022", 120.123),
-  createData("Mayo 2022", "Pagado", "25/06/2022", 120.123),
-  createData("Junio 2022", "Pagado", "25/07/2022", 120.123),
-  createData("Julio 2022", "Pagado", "25/08/2022", 120.123),
-  createData("Agosto 2022", "Pagado", "25/09/2022", 120.123),
-  createData("Septiembre 2022", "Pagado", "25/10/2022", 120.123),
-  createData("Octubre 2022", "Pagado", "25/11/2022", 120.123),
-  createData("Noviembre 2022", "Pendiente", "25/12/2022", 120.123),
-  createData("Diciembre 2022", "Pendiente", "25/01/2023", 120.123),
-  createData("Enero 2023", "Pendiente", "25/02/2023", 120.123),
-];
+function mapData(data) {
+  return data.map((x) => {
+    let item = {};
+    item.name = x.glosa;
+    item.tipo = x.tipo;
+    item.monto = x.monto;
+    item.vencimiento = x.vencimiento;
+    return item;
+  });
+}
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -198,7 +201,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-function EnhancedTable() {
+function EnhancedTable({ rows }) {
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("tipo");
   const [selected, setSelected] = React.useState([]);
@@ -346,12 +349,10 @@ function EnhancedTable() {
             onClose={handleClose}
             aria-describedby="alert-dialog-slide-description"
           >
-            <DialogTitle>{"Use Google's location service?"}</DialogTitle>
+            <DialogTitle>{"Informacion Adicional"}</DialogTitle>
             <DialogContent>
               <DialogContentText id="alert-dialog-slide-description">
-                Let Google help apps determine location. This means sending
-                anonymous location data to Google, even when no apps are
-                running.
+                Informacion Adicional
               </DialogContentText>
             </DialogContent>
             <DialogActions>
@@ -374,6 +375,18 @@ function EnhancedTable() {
 }
 
 function GastosComunesTable() {
+  const { data, loading, error } = useQuery(GET_GASTOS);
+  let gastos = [];
+
+  if (data) {
+    console.log(data);
+    gastos = mapData(data.getGastos);
+  }
+
+  if (error) {
+    console.log(error);
+  }
+
   return (
     <React.Fragment>
       <Helmet title="Advanced Table" />
@@ -392,7 +405,7 @@ function GastosComunesTable() {
 
       <Grid container spacing={6}>
         <Grid item xs={12}>
-          <EnhancedTable />
+          <EnhancedTable rows={gastos} />
         </Grid>
       </Grid>
     </React.Fragment>
