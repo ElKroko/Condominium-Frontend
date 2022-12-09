@@ -43,7 +43,7 @@ import {
 
 import { spacing } from "@material-ui/system";
 import { InputSharp } from "@material-ui/icons";
-import { gql, useMutation } from "@apollo/client";
+import { gql, useMutation, useQuery } from "@apollo/client";
 const Divider = styled(MuiDivider)(spacing);
 
 const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
@@ -54,10 +54,6 @@ const Spacer = styled.div`
   flex: 1 1 100%;
 `;
 
-function createData(name, tipo, fecha, responsable) {
-  return { name, tipo, fecha, responsable };
-}
-
 const ADD_EVENT = gql`
   mutation AddEvento($input: EventoInput) {
     addEvento(input: $input) {
@@ -65,23 +61,34 @@ const ADD_EVENT = gql`
       glosa
       responsable
       tipo
+      info_adicional
     }
   }
 `;
 
-const rows = [
-  createData("Uso piscina", "Uso espacio", "25/03/2022", "Rubeus Hagrid"),
-  createData("Uso quincho", "Uso espacio", "24/04/2022", "Ron Weasley"),
-  createData("Uso sala multiuso", "Uso espacio", "23/05/2022", "Harry Potter"),
-  createData("Uso piscina", "Uso espacio", "22/06/2022", "Draco Malfoy"),
-  createData("Uso quincho", "Uso espacio", "21/07/2022", "Tom Riddle"),
-  createData(
-    "Uso sala multiuso",
-    "Uso espacio",
-    "20/08/2022",
-    "Albus Dumbledore"
-  ),
-];
+const GET_EVENTOS = gql`
+  query GetGastos {
+    getEventos {
+      glosa
+      tipo
+      fecha
+      responsable
+      info_adicional
+    }
+  }
+`;
+
+function mapData(data) {
+  return data.map((x) => {
+    let item = {};
+    item.name = x.glosa;
+    item.tipo = x.tipo;
+    item.fecha = x.fecha;
+    item.responsable = x.responsable;
+    item.info_adicional = x.info_adicional;
+    return item;
+  });
+}
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -216,7 +223,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-function EnhancedTable() {
+function EnhancedTable({ rows }) {
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("tipo");
   const [selected, setSelected] = React.useState([]);
@@ -364,12 +371,11 @@ function EnhancedTable() {
             onClose={handleClose}
             aria-describedby="alert-dialog-slide-description"
           >
-            <DialogTitle>{"Use Google's location service?"}</DialogTitle>
+            <DialogTitle>{"Información adicional del evento:"}</DialogTitle>
             <DialogContent>
               <DialogContentText id="alert-dialog-slide-description">
-                Let Google help apps determine location. This means sending
-                anonymous location data to Google, even when no apps are
-                running.
+                Aca debe ir la info. adicional, pero no me da el alcance del
+                row.info_adicional, aiuda{/* {row.info_adicional} */}
               </DialogContentText>
             </DialogContent>
             <DialogActions>
@@ -393,11 +399,27 @@ function EnhancedTable() {
 
 function EventosTable() {
   const [open, setOpen] = React.useState(false);
-  const [addEvent, { data, error }] = useMutation(ADD_EVENT);
+  const [addEvent, { newData, errorMutation }] = useMutation(ADD_EVENT);
+
+  if (errorMutation) {
+    console.log(error);
+  }
+
+  const { data, loading, error } = useQuery(GET_EVENTOS);
+  let eventos = [];
+  if (data) {
+    console.log(data);
+    eventos = mapData(data.getEventos);
+  }
+  if (error) {
+    console.log(error);
+  }
+
   const nombreRef = React.useRef(null);
   const tipoRef = React.useRef(null);
   const dateRef = React.useRef(null);
   const responsableRef = React.useRef(null);
+  const info_adicionalRef = React.useRef(null);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -416,6 +438,7 @@ function EventosTable() {
           tipo: tipoRef.current.value,
           fecha: dateRef.current.value,
           responsable: responsableRef.current.value,
+          info_adicional: info_adicionalRef.current.value,
         },
       },
     });
@@ -491,6 +514,15 @@ function EventosTable() {
               fullWidth
               variant="outlined"
             />
+            <InputLabel shrink>Información adicional</InputLabel>
+            <TextField
+              inputRef={nombreRef}
+              margin="dense"
+              id="info_adicional"
+              type="text"
+              fullWidth
+              variant="outlined"
+            />
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>Cancelar</Button>
@@ -512,7 +544,7 @@ function EventosTable() {
 
       <Grid container spacing={6}>
         <Grid item xs={12}>
-          <EnhancedTable />
+          <EnhancedTable rows={eventos} />
         </Grid>
       </Grid>
     </React.Fragment>
