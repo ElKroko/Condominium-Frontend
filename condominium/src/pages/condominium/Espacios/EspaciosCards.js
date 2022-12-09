@@ -8,9 +8,15 @@ import {
   CardContent,
   Grid,
   Link,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
   Button as MuiButton,
+  InputLabel,
   Card as MuiCard,
   CardMedia as MuiCardMedia,
+  TextField,
   Typography,
 } from "@material-ui/core";
 
@@ -25,6 +31,19 @@ const CardMedia = styled(MuiCardMedia)`
 `;
 
 function MediaCard({ espacio, descripcion, rutaimg, titleimg }) {
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleSend = () => {
+    setOpen(false);
+  };
   return (
     <Card mb={6}>
       <CardActionArea>
@@ -37,9 +56,37 @@ function MediaCard({ espacio, descripcion, rutaimg, titleimg }) {
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button fullWidth color="primary" variant="contained">
-          Reservar
+        <Button variant="contained" onClick={handleClickOpen} color="primary">
+          Reservar Espacio
         </Button>
+        <Dialog open={open} onClose={handleClose}>
+          <DialogTitle>Reservar Espacio</DialogTitle>
+          <DialogContent>
+            <InputLabel shrink>Nombre del reservante</InputLabel>
+            <TextField
+              disabled
+              autoFocus
+              margin="dense"
+              id="name"
+              type="text"
+              fullWidth
+              variant="outlined"
+              defaultValue="Don Jose"
+            />
+            <InputLabel shrink>Fecha a usar el espacio</InputLabel>
+            <TextField
+              margin="dense"
+              id="date"
+              type="date"
+              fullWidth
+              variant="outlined"
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose}>Cancelar</Button>
+            <Button onClick={handleSend}>Enviar</Button>
+          </DialogActions>
+        </Dialog>
       </CardActions>
     </Card>
   );
