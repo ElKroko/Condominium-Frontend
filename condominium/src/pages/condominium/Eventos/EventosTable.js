@@ -61,6 +61,7 @@ const ADD_EVENT = gql`
       glosa
       responsable
       tipo
+      info_adicional
     }
   }
 `;
@@ -418,7 +419,7 @@ function EventosTable() {
   const tipoRef = React.useRef(null);
   const dateRef = React.useRef(null);
   const responsableRef = React.useRef(null);
-  // const info_adicionalRef = React.useRef(null);
+  const info_adicionalRef = React.useRef(null);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -437,7 +438,7 @@ function EventosTable() {
           tipo: tipoRef.current.value,
           fecha: dateRef.current.value,
           responsable: responsableRef.current.value,
-          // info_adicional: info_adicionalRef.current.value,
+          info_adicional: info_adicionalRef.current.value,
         },
       },
     });
@@ -515,7 +516,7 @@ function EventosTable() {
             />
             <InputLabel shrink>Información adicional</InputLabel>
             <TextField
-              inputRef={nombreRef}
+              inputRef={info_adicionalRef}
               margin="dense"
               id="info_adicional"
               type="text"
