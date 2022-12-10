@@ -21,6 +21,7 @@ import {
 } from "@material-ui/core";
 
 import { spacing } from "@material-ui/system";
+import { gql, useMutation, useQuery } from "@apollo/client";
 
 const Card = styled(MuiCard)(spacing);
 
@@ -30,8 +31,30 @@ const CardMedia = styled(MuiCardMedia)`
   height: 220px;
 `;
 
+const ADD_RESERVA_ESPACIO = gql`
+  mutation AddReserva($input: ReservaInput) {
+    addReserva(input: $input) {
+      fecha
+      residente
+      espacio
+      pago
+    }
+  }
+`;
+
 function MediaCard({ espacio, descripcion, rutaimg, titleimg }) {
   const [open, setOpen] = React.useState(false);
+  const [addReserva, { newData, errorMutation }] = useMutation(
+    ADD_RESERVA_ESPACIO
+  );
+  if (errorMutation) {
+    console.log(errorMutation);
+  }
+
+  const pagoRef = React.useRef(null);
+  const espacioRef = React.useRef(null);
+  const dateRef = React.useRef(null);
+  const residenteRef = React.useRef(null);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -41,9 +64,31 @@ function MediaCard({ espacio, descripcion, rutaimg, titleimg }) {
     setOpen(false);
   };
 
-  const handleSend = () => {
-    setOpen(false);
+  const handleAddReserva = (e) => {
+    e.preventDefault();
+    addReserva({
+      variables: {
+        input: {
+          pago: parseInt(pagoRef.current.value, 10),
+          espacio: espacioRef.current.value,
+          fecha: dateRef.current.value,
+          residente: residenteRef.current.value,
+        },
+      },
+    });
+    handleClose();
   };
+
+  const today = new Date();
+  const minDate = today.toISOString().substring(0, 10);
+  const maxDate = new Date(
+    today.getFullYear(),
+    today.getMonth(),
+    today.getDate() + 30
+  )
+    .toISOString()
+    .substring(0, 10);
+
   return (
     <Card mb={6}>
       <CardActionArea>
@@ -59,35 +104,56 @@ function MediaCard({ espacio, descripcion, rutaimg, titleimg }) {
         <Button variant="contained" onClick={handleClickOpen} color="primary">
           Reservar Espacio
         </Button>
-        <Dialog open={open} onClose={handleClose}>
-          <DialogTitle>Reservar Espacio</DialogTitle>
-          <DialogContent>
-            <InputLabel shrink>Nombre del reservante</InputLabel>
-            <TextField
-              disabled
-              autoFocus
-              margin="dense"
-              id="name"
-              type="text"
-              fullWidth
-              variant="outlined"
-              defaultValue="Don Jose"
-            />
-            <InputLabel shrink>Fecha a usar el espacio</InputLabel>
-            <TextField
-              margin="dense"
-              id="date"
-              type="date"
-              fullWidth
-              variant="outlined"
-            />
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose}>Cancelar</Button>
-            <Button onClick={handleSend}>Enviar</Button>
-          </DialogActions>
-        </Dialog>
       </CardActions>
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>Reservar Espacio</DialogTitle>
+        <DialogContent>
+          <InputLabel shrink>Nombre del reservante</InputLabel>
+          <TextField
+            disabled
+            autoFocus
+            inputRef={residenteRef}
+            margin="dense"
+            type="text"
+            fullWidth
+            variant="outlined"
+            defaultValue="Don Jose"
+          />
+          <InputLabel shrink>Fecha a usar el espacio</InputLabel>
+          <TextField
+            inputRef={dateRef}
+            margin="dense"
+            type="date"
+            required
+            inputProps={{ min: minDate, max: maxDate }}
+            fullWidth
+            variant="outlined"
+          />
+          <InputLabel shrink>Espacio</InputLabel>
+          <TextField
+            inputRef={espacioRef}
+            margin="dense"
+            type="text"
+            required
+            fullWidth
+            variant="outlined"
+            defaultValue="espacio"
+          />
+          <InputLabel shrink>Precio</InputLabel>
+          <TextField
+            inputRef={pagoRef}
+            margin="dense"
+            type="number"
+            required
+            fullWidth
+            variant="outlined"
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Cancelar</Button>
+          <Button onClick={handleAddReserva}>Enviar</Button>
+        </DialogActions>
+      </Dialog>
     </Card>
   );
 }
@@ -124,5 +190,4 @@ function Cards() {
     </React.Fragment>
   );
 }
-
 export default Cards;
