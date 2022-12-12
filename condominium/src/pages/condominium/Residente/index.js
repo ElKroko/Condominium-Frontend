@@ -5,8 +5,6 @@ import { ReactComponent as GastosSVG } from "../../../vendor/logo.svg";
 
 import { Helmet } from "react-helmet";
 
-import USAMap from "./USAMap";
-
 import {
   Avatar as MuiAvatar,
   Box,
@@ -117,10 +115,7 @@ function About() {
             </AboutIcon>
           </Grid>
           <Grid item>
-            Vive en{" "}
-            <Link href="https://material-app.bootlab.io/">
-              Departamento #409
-            </Link>
+            Vive en <Link href="">Departamento #409</Link>
           </Grid>
         </Grid>
       </CardContent>
