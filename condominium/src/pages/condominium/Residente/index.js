@@ -168,7 +168,16 @@ function Deuda({ deuda }) {
           <Spacer mb={5} />
           <Grid container justify="center">
             <Button variant="contained" color="primary">
-              Pagar Aqui
+              <Link
+                href="https://www.flow.cl/uri/pAH4kDk0Z"
+                rel="noopener noreferrer"
+                target="_blank"
+                color="inherit"
+              >
+                <Typography color="#FFFFFF" variant="subtitle1">
+                  Pagar Aqui
+                </Typography>
+              </Link>
             </Button>
           </Grid>
         </CardContent>
