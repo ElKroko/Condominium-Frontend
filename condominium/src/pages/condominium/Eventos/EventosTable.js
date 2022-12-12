@@ -60,7 +60,7 @@ const ADD_EVENT = gql`
   mutation AddEvento($input: EventoInput) {
     addEvento(input: $input) {
       fecha
-      glosa
+      nombre
       responsable
       tipo
       info_adicional
@@ -71,7 +71,7 @@ const ADD_EVENT = gql`
 const GET_EVENTOS = gql`
   query GetGastos {
     getEventos {
-      glosa
+      nombre
       tipo
       fecha
       responsable
@@ -83,7 +83,7 @@ const GET_EVENTOS = gql`
 function mapData(data) {
   return data.map((x) => {
     let item = {};
-    item.name = x.glosa;
+    item.name = x.nombre;
     item.tipo = x.tipo;
     item.fecha = x.fecha;
     item.responsable = x.responsable;
@@ -234,9 +234,13 @@ function EnhancedTable({ rows }) {
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [open, setOpen] = React.useState(false);
 
-  const handleClickOpen = () => {
+  const [data, setData] = React.useState({});
+
+  const handleClickOpen = (event, row) => {
+    setData(row);
     setOpen(true);
   };
+
   const handleClose = () => {
     setOpen(false);
   };
@@ -356,7 +360,10 @@ function EnhancedTable({ rows }) {
                       <TableCell align="right">{row.tipo}</TableCell>
                       <TableCell align="right">{row.fecha}</TableCell>
                       <TableCell align="right">{row.responsable}</TableCell>
-                      <IconButton onClick={handleClickOpen} edge="false">
+                      <IconButton
+                        onClick={(event) => handleClickOpen(event, row)}
+                        edge="false"
+                      >
                         <Visibility />
                       </IconButton>
                     </TableRow>
@@ -381,27 +388,22 @@ function EnhancedTable({ rows }) {
             <DialogContent>
               <Grid container spacing={4}>
                 <Grid item md={12}>
-                  <Typography variant="h2">Evento {"Nombre"}</Typography>
+                  <Typography variant="h2">Evento {data.nombre}</Typography>
                 </Grid>
 
                 <Grid item md={4}>
                   <Typography variant="subtitle1">
-                    <b>Responsable:</b> {"Don Jose"}
-                  </Typography>
-                </Grid>
-                <Grid item md={3}>
-                  <Typography variant="subtitle1">
-                    <b>ID:</b> {"12312451"}
+                    <b>Responsable:</b> {data.responsable}
                   </Typography>
                 </Grid>
                 <Grid item md={5}>
                   <Typography variant="subtitle1">
-                    <b>Fecha:</b> {"04/12/2023"}
+                    <b>Fecha:</b> {data.fecha}
                   </Typography>
                 </Grid>
                 <Grid item md={12}>
                   <Typography variant="subtitle1">
-                    <b>Tipo:</b> {"Asado"}
+                    <b>Tipo:</b> {data.tipo}
                   </Typography>
                 </Grid>
                 <Grid item md={12}>
@@ -424,7 +426,7 @@ function EnhancedTable({ rows }) {
                 </Grid>
                 <Grid item xs={12}>
                   <Typography variant="subtitle1">
-                    <b>Info Adicional:</b> {"No hay informacion adicional."}
+                    <b>Info Adicional:</b> {data.info_adicional}
                   </Typography>
                 </Grid>
               </Grid>
@@ -491,7 +493,7 @@ function EventosTable() {
     addEvent({
       variables: {
         input: {
-          glosa: nombreRef.current.value,
+          nombre: nombreRef.current.value,
           tipo: tipoRef.current.value,
           fecha: dateRef.current.value,
           responsable: responsableRef.current.value,
