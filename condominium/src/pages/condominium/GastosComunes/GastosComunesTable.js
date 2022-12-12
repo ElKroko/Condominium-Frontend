@@ -122,7 +122,7 @@ const headCells = [
     disablePadding: true,
     label: "Nombre",
   },
-  { id: "tipo", numeric: false, disablePadding: false, label: "Tipo" },
+  { id: "tipo", numeric: true, disablePadding: false, label: "Estado" },
   {
     id: "vencimiento",
     numeric: true,
