@@ -134,6 +134,7 @@ function MediaCard({ espacio, descripcion, rutaimg, titleimg }) {
             type="date"
             required
             inputProps={{ min: minDate, max: maxDate }}
+            defaultValue={minDate}
             fullWidth
             variant="outlined"
           />
@@ -144,6 +145,7 @@ function MediaCard({ espacio, descripcion, rutaimg, titleimg }) {
             type="number"
             required
             fullWidth
+            defaultValue="500"
             variant="outlined"
           />
           <InputLabel shrink>Espacio</InputLabel>
