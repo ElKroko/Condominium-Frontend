@@ -5,12 +5,20 @@ import { NavLink } from "react-router-dom";
 import Helmet from "react-helmet";
 
 import {
+  Box,
+  FormControl,
+  FormControlLabel,
+  InputLabel,
+  Select,
+  Switch,
+  MenuItem,
   Button,
   Checkbox,
   Grid,
   IconButton,
   Link,
   Dialog,
+  Card,
   DialogTitle,
   DialogContent,
   DialogContentText,
@@ -30,6 +38,7 @@ import {
   Tooltip,
   Typography,
   Slide,
+  CardContent,
 } from "@material-ui/core";
 
 import {
@@ -38,7 +47,7 @@ import {
   Visibility,
 } from "@material-ui/icons";
 
-import { spacing } from "@material-ui/system";
+import { maxWidth, spacing } from "@material-ui/system";
 import { gql, useQuery } from "@apollo/client";
 
 const Divider = styled(MuiDivider)(spacing);
@@ -49,6 +58,11 @@ const Paper = styled(MuiPaper)(spacing);
 
 const Spacer = styled.div`
   flex: 1 1 100%;
+`;
+
+const ModalButton = styled(Button)`
+  background: ${(props) => props.theme.palette.primary.main};
+  color: ${(props) => props.theme.palette.common.white};
 `;
 
 const GET_GASTOS = gql`
@@ -268,14 +282,13 @@ function EnhancedTable({ rows }) {
     setPage(0);
   };
 
-  const handleChangeDense = (event) => {
-    setDense(event.target.checked);
-  };
-
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+
+  const [fullWidth, setFullWidth] = React.useState(true);
+  const [maxWidth, setMaxWidth] = React.useState("sm");
 
   return (
     <div>
@@ -347,16 +360,63 @@ function EnhancedTable({ rows }) {
             TransitionComponent={Transition}
             keepMounted
             onClose={handleClose}
-            aria-describedby="alert-dialog-slide-description"
+            fullWidth={fullWidth}
+            maxWidth={maxWidth}
           >
-            <DialogTitle>{"Informacion Adicional"}</DialogTitle>
             <DialogContent>
-              <DialogContentText id="alert-dialog-slide-description">
-                Informacion Adicional
-              </DialogContentText>
+              <Grid container spacing={4}>
+                <Grid item md={12}>
+                  <Typography variant="h2">Gasto Comun Nombre</Typography>
+                </Grid>
+
+                <Grid item xs={4}>
+                  <Typography variant="subtitle1">
+                    <b>Residente:</b> {"Don Jose"}
+                  </Typography>
+                </Grid>
+                <Grid item xs={3}>
+                  <Typography variant="subtitle1">
+                    <b>ID:</b> {"12312451"}
+                  </Typography>
+                </Grid>
+                <Grid item xs={5}>
+                  <Typography sx={{ fontWeight: "bold", fontSize: "default" }}>
+                    <b>Vencimiento:</b> {"04/12/2023"}
+                  </Typography>
+                </Grid>
+                <Grid item xs={12}>
+                  <Typography variant="subtitle1">
+                    <b>Glosa:</b>{" "}
+                  </Typography>
+                  <Card variant="outlined">
+                    <CardContent>
+                      <Typography>
+                        In esse ullamco cillum amet. Quis nulla ea aliquip elit
+                        officia culpa laborum commodo exercitation aliquip
+                        laborum laborum dolor tempor. Quis aliqua qui non
+                        aliquip voluptate aute cupidatat consectetur id. Ipsum
+                        nisi sint elit et occaecat. Fugiat sit non irure Lorem
+                        occaecat qui ex ipsum anim veniam Lorem Lorem proident
+                        ullamco.
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+                <Grid item xs={12}>
+                  <Typography variant="subtitle1" component="h3">
+                    <b>Monto:</b> $ {"12938471289"}
+                  </Typography>
+                </Grid>
+              </Grid>
             </DialogContent>
             <DialogActions>
-              <Button onClick={handleClose}>Listo</Button>
+              <Button
+                onClick={handleClose}
+                variant="contained"
+                color="secondary"
+              >
+                Listo
+              </Button>
             </DialogActions>
           </Dialog>
         </TableContainer>
