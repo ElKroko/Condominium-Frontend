@@ -70,6 +70,7 @@ const userID = "634e02da5cecb3222d4ea9fa";
 const GET_GASTOS = gql`
   query GetGastos {
     getGastos {
+      nombre
       glosa
       monto
       tipo
@@ -81,10 +82,11 @@ const GET_GASTOS = gql`
 function mapData(data) {
   return data.map((x) => {
     let item = {};
-    item.name = x.glosa;
+    item.name = x.nombre;
+    item.glosa = x.glosa.replaceAll(" ", "<br>");
     item.tipo = x.tipo;
     item.monto = x.monto;
-    item.vencimiento = x.vencimiento;
+    item.vencimiento = x.vencimiento.substring(0, 10);
     return item;
   });
 }
@@ -226,9 +228,13 @@ function EnhancedTable({ rows }) {
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [open, setOpen] = React.useState(false);
 
-  const handleClickOpen = () => {
+  const [data, setData] = React.useState({});
+
+  const handleClickOpen = (event, row) => {
+    setData(row);
     setOpen(true);
   };
+
   const handleClose = () => {
     setOpen(false);
   };
@@ -344,7 +350,10 @@ function EnhancedTable({ rows }) {
                       <TableCell align="right">{row.tipo}</TableCell>
                       <TableCell align="right">{row.vencimiento}</TableCell>
                       <TableCell align="right">${row.monto}</TableCell>
-                      <IconButton onClick={handleClickOpen} edge="false">
+                      <IconButton
+                        onClick={(event) => handleClickOpen(event, row)}
+                        edge="false"
+                      >
                         <Visibility />
                       </IconButton>
                     </TableRow>
@@ -368,22 +377,11 @@ function EnhancedTable({ rows }) {
             <DialogContent>
               <Grid container spacing={4}>
                 <Grid item md={12}>
-                  <Typography variant="h2">Gasto Comun Nombre</Typography>
+                  <Typography variant="h2">Gasto comun {data.name}</Typography>
                 </Grid>
-
-                <Grid item xs={4}>
-                  <Typography variant="subtitle1">
-                    <b>Residente:</b> {"Don Jose"}
-                  </Typography>
-                </Grid>
-                <Grid item xs={3}>
-                  <Typography variant="subtitle1">
-                    <b>ID:</b> {"12312451"}
-                  </Typography>
-                </Grid>
-                <Grid item xs={5}>
+                <Grid item xs={12}>
                   <Typography sx={{ fontWeight: "bold", fontSize: "default" }}>
-                    <b>Vencimiento:</b> {"04/12/2023"}
+                    <b>Vencimiento:</b> {data.vencimiento}
                   </Typography>
                 </Grid>
                 <Grid item xs={12}>
@@ -392,21 +390,15 @@ function EnhancedTable({ rows }) {
                   </Typography>
                   <Card variant="outlined">
                     <CardContent>
-                      <Typography>
-                        In esse ullamco cillum amet. Quis nulla ea aliquip elit
-                        officia culpa laborum commodo exercitation aliquip
-                        laborum laborum dolor tempor. Quis aliqua qui non
-                        aliquip voluptate aute cupidatat consectetur id. Ipsum
-                        nisi sint elit et occaecat. Fugiat sit non irure Lorem
-                        occaecat qui ex ipsum anim veniam Lorem Lorem proident
-                        ullamco.
-                      </Typography>
+                      <Typography
+                        dangerouslySetInnerHTML={{ __html: data.glosa }}
+                      />
                     </CardContent>
                   </Card>
                 </Grid>
                 <Grid item xs={12}>
                   <Typography variant="subtitle1" component="h3">
-                    <b>Monto:</b> $ {"12938471289"}
+                    <b>Monto:</b> $ {data.monto}
                   </Typography>
                 </Grid>
               </Grid>

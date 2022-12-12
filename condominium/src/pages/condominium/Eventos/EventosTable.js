@@ -85,7 +85,7 @@ function mapData(data) {
     let item = {};
     item.name = x.nombre;
     item.tipo = x.tipo;
-    item.fecha = x.fecha;
+    item.fecha = x.fecha.substring(0, 10);
     item.responsable = x.responsable;
     item.info_adicional = x.info_adicional;
     return item;
@@ -391,12 +391,12 @@ function EnhancedTable({ rows }) {
                   <Typography variant="h2">Evento {data.nombre}</Typography>
                 </Grid>
 
-                <Grid item md={4}>
+                <Grid item md={6}>
                   <Typography variant="subtitle1">
                     <b>Responsable:</b> {data.responsable}
                   </Typography>
                 </Grid>
-                <Grid item md={5}>
+                <Grid item md={6}>
                   <Typography variant="subtitle1">
                     <b>Fecha:</b> {data.fecha}
                   </Typography>
