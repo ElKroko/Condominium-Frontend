@@ -1,8 +1,8 @@
 {
   "name": "material-app",
   "version": "2.0.0",
-  "description": "Material App Pro - React Admin & Dashboard Template",
-  "author": "Paul Laros <support@bootlab.io>",
+  "description": "Condominium App",
+  "author": "Vicente Perelli",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
