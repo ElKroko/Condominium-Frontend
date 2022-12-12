@@ -114,10 +114,6 @@ const AboutIcon = styled.span`
   }
 `;
 const StatsIcon = styled.div`
-  position: absolute;
-  right: 16px;
-  top: 32px;
-
   svg {
     width: 32px;
     height: 32px;
@@ -155,16 +151,21 @@ function Deuda({ deuda }) {
     <Box position="relative">
       <Card mb={6} pt={2}>
         <CardContent>
-          <Typography variant="h2" gutterBottom>
-            <Box fontWeight="fontWeightRegular">$ {deuda}</Box>
-          </Typography>
+          <Grid container>
+            <Grid item mb={2}>
+              <StatsIcon>
+                <DollarSign />
+              </StatsIcon>
+            </Grid>
+            <Grid item mb={10}>
+              <Typography variant="h2" gutterBottom>
+                <Box fontWeight="fontWeightRegular">{deuda}</Box>
+              </Typography>
+            </Grid>
+          </Grid>
           <Typography variant="body2" gutterBottom mt={3} mb={0}>
             Deuda Total
           </Typography>
-
-          <StatsIcon>
-            <DollarSign />
-          </StatsIcon>
           <Spacer mb={5} />
           <Grid container justify="center">
             <Button variant="contained" color="primary">
