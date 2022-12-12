@@ -72,14 +72,6 @@ const authRoutes = {
   component: null,
 };
 
-const landingRoutes = {
-  id: "Landing Page",
-  path: "/",
-  header: "Docs",
-  icon: <Monitor />,
-  component: Landing,
-  children: null,
-};
 // This route is only visible while signed in
 const protectedPageRoutes = {
   id: "Private",
