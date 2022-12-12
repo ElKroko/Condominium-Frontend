@@ -23,6 +23,32 @@ import { spacing } from "@material-ui/system";
 
 import Noticias from "./Noticias";
 
+import { gql, useQuery } from "@apollo/client";
+
+const userID = "634e02da5cecb3222d4ea9fa";
+
+const GET_AVISOS = gql`
+  query GetAvisos {
+    getAvisos {
+      creador
+      descripcion
+      fecha
+      titulo
+    }
+  }
+`;
+
+const GET_RESIDENTE = gql`
+  query GetResidente($getResidenteId: ID!) {
+    getResidente(id: $getResidenteId) {
+      deuda
+      email
+      location
+      userName
+    }
+  }
+`;
+
 const Divider = styled(MuiDivider)(spacing);
 
 const Typography = styled(MuiTypography)(spacing);
@@ -57,7 +83,7 @@ const Centered = styled.div`
   text-align: center;
 `;
 
-function Details() {
+function Details({ name }) {
   return (
     <Perfil mb={6} style={{ boxShadow: 3 }}>
       <CardContent>
@@ -69,7 +95,7 @@ function Details() {
         <Avatar alt="Lucy Lavender" src="/static/img/avatars/avatar-2.jpg" />
         <Spacer mb={5} />
         <Typography variant="body2" component="div" gutterBottom>
-          <Box fontWeight="fontWeightMedium">Don Jose</Box>
+          <Box fontWeight="fontWeightMedium">{name}</Box>
           <Box fontWeight="fontWeightRegular">Residente</Box>
         </Typography>
       </CardContent>
@@ -98,7 +124,7 @@ const StatsIcon = styled.div`
   }
 `;
 
-function About() {
+function About({ location }) {
   return (
     <Card mb={6}>
       <CardContent>
@@ -115,7 +141,7 @@ function About() {
             </AboutIcon>
           </Grid>
           <Grid item>
-            Vive en <Link href="">Departamento #409</Link>
+            Vive en <Link href="">{location}</Link>
           </Grid>
         </Grid>
       </CardContent>
@@ -123,13 +149,13 @@ function About() {
   );
 }
 
-function Deuda() {
+function Deuda({ deuda }) {
   return (
     <Box position="relative">
       <Card mb={6} pt={2}>
         <CardContent>
           <Typography variant="h2" gutterBottom>
-            <Box fontWeight="fontWeightRegular">$ 2.405</Box>
+            <Box fontWeight="fontWeightRegular">$ {deuda}</Box>
           </Typography>
           <Typography variant="body2" gutterBottom mt={3} mb={0}>
             Deuda Total
@@ -182,7 +208,41 @@ function ReservarEspacio() {
   );
 }
 
+function GetAvisos() {
+  const { data, error } = useQuery(GET_AVISOS);
+
+  if (data) {
+    console.log(data);
+    return data.getAvisos;
+  }
+
+  if (error) {
+    console.log(error);
+  }
+  return [];
+}
+
+function GetResidente() {
+  const { data, error } = useQuery(GET_RESIDENTE, {
+    variables: {
+      getResidenteId: userID,
+    },
+  });
+
+  if (data) {
+    console.log(data);
+    return data.getResidente;
+  }
+
+  if (error) {
+    console.log(error);
+  }
+  return;
+}
 function ResidenteDashboard() {
+  let avisos = GetAvisos();
+  let residente = GetResidente();
+
   return (
     <React.Fragment>
       <Helmet title="Inicio" />
@@ -192,7 +252,7 @@ function ResidenteDashboard() {
             Inicio
           </Typography>
           <Typography variant="subtitle1">
-            Bienvenido Don Jose! Te extrañamos.{" "}
+            Bienvenido {residente.userName}! Te extrañamos.{" "}
             <span role="img" aria-label="Waving Hand Sign">
               👋
             </span>
@@ -208,7 +268,7 @@ function ResidenteDashboard() {
             {" "}
             Avisos a la Comunidad:
           </Typography>
-          <Noticias />
+          <Noticias avisos={avisos} />
           <Spacer mb={30} />
           <Grid container spacing={6}>
             <Grid item xs={12} lg={1} />
@@ -223,9 +283,9 @@ function ResidenteDashboard() {
         </Grid>
         <Grid item lg={1} />
         <Grid item xs={12} lg={3}>
-          <Details />
-          <About />
-          <Deuda />
+          <Details name={residente.userName} />
+          <About location={residente.location} />
+          <Deuda deuda={residente.deuda} />
         </Grid>
       </Grid>
     </React.Fragment>

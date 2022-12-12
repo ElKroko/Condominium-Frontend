@@ -65,6 +65,8 @@ const ModalButton = styled(Button)`
   color: ${(props) => props.theme.palette.common.white};
 `;
 
+const userID = "634e02da5cecb3222d4ea9fa";
+
 const GET_GASTOS = gql`
   query GetGastos {
     getGastos {
