@@ -32,9 +32,6 @@ const EventosTable = async(() =>
   import("../pages/condominium/Eventos/EventosTable")
 );
 
-// Landing
-const Landing = async(() => import("../pages/presentation/Landing"));
-
 // Protected routes
 const ProtectedPage = async(() => import("../pages/protected/ProtectedPage"));
 
@@ -83,7 +80,7 @@ const protectedPageRoutes = {
 
 const ResidenteRoutes = {
   id: "Inicio",
-  path: "/inicio",
+  path: "/",
   icon: <Monitor />,
   containsHome: true,
   children: null,
