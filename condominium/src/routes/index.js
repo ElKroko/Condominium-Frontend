@@ -126,7 +126,7 @@ export const dashboardLayoutRoutes = [
 export const authLayoutRoutes = [authRoutes];
 
 // Routes using the Presentation layout
-export const presentationLayoutRoutes = [ResidenteRoutes];
+export const presentationLayoutRoutes = [landingRoutes];
 
 // Routes that are protected
 export const protectedRoutes = [protectedPageRoutes];

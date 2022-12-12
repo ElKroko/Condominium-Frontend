@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import React, { useState } from "react";
 import styled from "styled-components/macro";
 import { rgba } from "polished";
