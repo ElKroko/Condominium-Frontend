@@ -33,6 +33,8 @@ import {
   Tooltip,
   Typography,
   Slide,
+  Card,
+  CardContent,
 } from "@material-ui/core";
 
 import {
@@ -299,6 +301,9 @@ function EnhancedTable({ rows }) {
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
+  const [fullWidth, setFullWidth] = React.useState(true);
+  const [maxWidth, setMaxWidth] = React.useState("sm");
+
   return (
     <div>
       <Paper>
@@ -370,16 +375,68 @@ function EnhancedTable({ rows }) {
             keepMounted
             onClose={handleClose}
             aria-describedby="alert-dialog-slide-description"
+            fullWidth={fullWidth}
+            maxWidth={maxWidth}
           >
-            <DialogTitle>{"Información adicional del evento:"}</DialogTitle>
             <DialogContent>
-              <DialogContentText id="alert-dialog-slide-description">
-                Aca debe ir la info. adicional, pero no me da el alcance del
-                row.info_adicional, aiuda{/* {row.info_adicional} */}
-              </DialogContentText>
+              <Grid container spacing={4}>
+                <Grid item md={12}>
+                  <Typography variant="h2">Evento {"Nombre"}</Typography>
+                </Grid>
+
+                <Grid item md={4}>
+                  <Typography variant="subtitle1">
+                    <b>Responsable:</b> {"Don Jose"}
+                  </Typography>
+                </Grid>
+                <Grid item md={3}>
+                  <Typography variant="subtitle1">
+                    <b>ID:</b> {"12312451"}
+                  </Typography>
+                </Grid>
+                <Grid item md={5}>
+                  <Typography variant="subtitle1">
+                    <b>Fecha:</b> {"04/12/2023"}
+                  </Typography>
+                </Grid>
+                <Grid item md={12}>
+                  <Typography variant="subtitle1">
+                    <b>Tipo:</b> {"Asado"}
+                  </Typography>
+                </Grid>
+                <Grid item md={12}>
+                  <Typography variant="subtitle1">
+                    <b>Glosa:</b>
+                  </Typography>
+                  <Card variant="outlined">
+                    <CardContent>
+                      <Typography>
+                        In esse ullamco cillum amet. Quis nulla ea aliquip elit
+                        officia culpa laborum commodo exercitation aliquip
+                        laborum laborum dolor tempor. Quis aliqua qui non
+                        aliquip voluptate aute cupidatat consectetur id. Ipsum
+                        nisi sint elit et occaecat. Fugiat sit non irure Lorem
+                        occaecat qui ex ipsum anim veniam Lorem Lorem proident
+                        ullamco.
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+                <Grid item xs={12}>
+                  <Typography variant="subtitle1">
+                    <b>Info Adicional:</b> {"No hay informacion adicional."}
+                  </Typography>
+                </Grid>
+              </Grid>
             </DialogContent>
             <DialogActions>
-              <Button onClick={handleClose}>Listo</Button>
+              <Button
+                onClick={handleClose}
+                variant="contained"
+                color="secondary"
+              >
+                Listo
+              </Button>
             </DialogActions>
           </Dialog>
         </TableContainer>
