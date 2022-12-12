@@ -7,6 +7,7 @@ import { Helmet } from "react-helmet";
 
 import {
   Avatar as MuiAvatar,
+  Button,
   Box,
   Grid,
   Divider as MuiDivider,
@@ -164,6 +165,12 @@ function Deuda({ deuda }) {
           <StatsIcon>
             <DollarSign />
           </StatsIcon>
+          <Spacer mb={5} />
+          <Grid container justify="center">
+            <Button variant="contained" color="primary">
+              Pagar Aqui
+            </Button>
+          </Grid>
         </CardContent>
       </Card>
     </Box>
@@ -282,8 +289,8 @@ function ResidenteDashboard() {
           </Grid>
         </Grid>
         <Grid item lg={1} />
-        <Grid item xs={12} lg={3}>
-          <Details name={residente.userName} />
+        <Grid item xs={12} lg={3} spacing={2}>
+          <Details name={residente.userName} mb={5} />
           <About location={residente.location} />
           <Deuda deuda={residente.deuda} />
         </Grid>
