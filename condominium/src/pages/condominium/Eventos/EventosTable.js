@@ -14,7 +14,6 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
-  DialogContentText,
   DialogActions,
   Breadcrumbs as MuiBreadcrumbs,
   Divider as MuiDivider,
