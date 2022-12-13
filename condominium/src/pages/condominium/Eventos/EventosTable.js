@@ -370,15 +370,7 @@ function EnhancedTable({ rows }) {
                   </Typography>
                   <Card variant="outlined">
                     <CardContent>
-                      <Typography>
-                        In esse ullamco cillum amet. Quis nulla ea aliquip elit
-                        officia culpa laborum commodo exercitation aliquip
-                        laborum laborum dolor tempor. Quis aliqua qui non
-                        aliquip voluptate aute cupidatat consectetur id. Ipsum
-                        nisi sint elit et occaecat. Fugiat sit non irure Lorem
-                        occaecat qui ex ipsum anim veniam Lorem Lorem proident
-                        ullamco.
-                      </Typography>
+                      <Typography>{data.glosa}</Typography>
                     </CardContent>
                   </Card>
                 </Grid>
@@ -440,6 +432,7 @@ function EventosTable() {
   const dateRef = React.useRef(null);
   const responsableRef = React.useRef(null);
   const info_adicionalRef = React.useRef(null);
+  const glosaRef = React.useRef(null);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -459,6 +452,7 @@ function EventosTable() {
           fecha: dateRef.current.value,
           responsable: responsableRef.current.value,
           info_adicional: info_adicionalRef.current.value,
+          glosa: glosaRef.current.value,
         },
       },
     });
@@ -541,6 +535,15 @@ function EventosTable() {
             <InputLabel shrink>Información adicional</InputLabel>
             <TextField
               inputRef={info_adicionalRef}
+              margin="dense"
+              id="info_adicional"
+              type="text"
+              fullWidth
+              variant="outlined"
+            />
+            <InputLabel shrink>Glosa</InputLabel>
+            <TextField
+              inputRef={glosaRef}
               margin="dense"
               id="info_adicional"
               type="text"
