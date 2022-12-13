@@ -121,7 +121,7 @@ function MediaCard({ espacio, descripcion, rutaimg, titleimg }) {
       </CardActionArea>
       <CardActions>
         <Grid container>
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} md={7}>
             <Button
               id={espacio}
               value={espacio}
@@ -133,8 +133,8 @@ function MediaCard({ espacio, descripcion, rutaimg, titleimg }) {
               Reservar Espacio
             </Button>
           </Grid>
-          <Grid item xs={12} md={6}>
-            <Typography> Disponibles: {"0"}</Typography>
+          <Grid item xs={12} md={5} alignItems="flex-end">
+            <Button> Disponibles: {"0"}</Button>
           </Grid>
         </Grid>
       </CardActions>
