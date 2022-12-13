@@ -5,13 +5,6 @@ import { NavLink } from "react-router-dom";
 import Helmet from "react-helmet";
 
 import {
-  Box,
-  FormControl,
-  FormControlLabel,
-  InputLabel,
-  Select,
-  Switch,
-  MenuItem,
   Button,
   Checkbox,
   Grid,
@@ -19,9 +12,7 @@ import {
   Link,
   Dialog,
   Card,
-  DialogTitle,
   DialogContent,
-  DialogContentText,
   DialogActions,
   Breadcrumbs as MuiBreadcrumbs,
   Divider as MuiDivider,
@@ -47,7 +38,7 @@ import {
   Visibility,
 } from "@material-ui/icons";
 
-import { maxWidth, spacing } from "@material-ui/system";
+import { spacing } from "@material-ui/system";
 import { gql, useQuery } from "@apollo/client";
 
 const Divider = styled(MuiDivider)(spacing);
@@ -58,11 +49,6 @@ const Paper = styled(MuiPaper)(spacing);
 
 const Spacer = styled.div`
   flex: 1 1 100%;
-`;
-
-const ModalButton = styled(Button)`
-  background: ${(props) => props.theme.palette.primary.main};
-  color: ${(props) => props.theme.palette.common.white};
 `;
 
 const userID = "634e02da5cecb3222d4ea9fa";
@@ -179,42 +165,6 @@ function EnhancedTableHead(props) {
   );
 }
 
-let EnhancedTableToolbar = (props) => {
-  const { numSelected } = props;
-
-  return (
-    <Toolbar>
-      <div>
-        {numSelected > 0 ? (
-          <Typography color="inherit" variant="subtitle1">
-            {numSelected} selected
-          </Typography>
-        ) : (
-          <Typography variant="h6" id="tableTitle">
-            Gastos
-          </Typography>
-        )}
-      </div>
-      <Spacer />
-      <div>
-        {numSelected > 0 ? (
-          <Tooltip title="Delete">
-            <IconButton aria-label="Delete">
-              <DeleteIcon />
-            </IconButton>
-          </Tooltip>
-        ) : (
-          <Tooltip title="Filter list">
-            <IconButton aria-label="Filter list">
-              <FilterListIcon />
-            </IconButton>
-          </Tooltip>
-        )}
-      </div>
-    </Toolbar>
-  );
-};
-
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -295,13 +245,12 @@ function EnhancedTable({ rows }) {
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
-  const [fullWidth, setFullWidth] = React.useState(true);
-  const [maxWidth, setMaxWidth] = React.useState("sm");
+  const [fullWidth] = React.useState(true);
+  const [maxWidth] = React.useState("sm");
 
   return (
     <div>
       <Paper>
-        <EnhancedTableToolbar numSelected={selected.length} />
         <TableContainer>
           <Table
             aria-labelledby="tableTitle"
@@ -376,14 +325,25 @@ function EnhancedTable({ rows }) {
           >
             <DialogContent>
               <Grid container spacing={4}>
-                <Grid item md={12}>
-                  <Typography variant="h2">Gasto comun {data.name}</Typography>
-                </Grid>
                 <Grid item xs={12}>
-                  <Typography sx={{ fontWeight: "bold", fontSize: "default" }}>
+                  <Typography variant="h2">Gasto comun</Typography>
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <Typography variant="subtitle1">
+                    <b>Nombre:</b> {data.name}
+                  </Typography>
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <Typography variant="subtitle1">
                     <b>Vencimiento:</b> {data.vencimiento}
                   </Typography>
                 </Grid>
+                <Grid item xs={12} md={6}>
+                  <Typography variant="subtitle1">
+                    <b>Estado:</b> {data.tipo}
+                  </Typography>
+                </Grid>
+
                 <Grid item xs={12}>
                   <Typography variant="subtitle1">
                     <b>Glosa:</b>{" "}
@@ -443,7 +403,7 @@ function GastosComunesTable() {
 
   return (
     <React.Fragment>
-      <Helmet title="Advanced Table" />
+      <Helmet title="Gastos Comunes" />
       <Typography variant="h3" gutterBottom display="inline">
         Gastos Comunes
       </Typography>
@@ -457,7 +417,7 @@ function GastosComunesTable() {
 
       <Divider my={6} />
 
-      <Grid container spacing={6}>
+      <Grid container>
         <Grid item xs={12}>
           <EnhancedTable rows={gastos} />
         </Grid>

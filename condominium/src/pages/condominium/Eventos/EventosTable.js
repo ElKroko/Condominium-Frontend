@@ -14,7 +14,6 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
-  DialogContentText,
   DialogActions,
   Breadcrumbs as MuiBreadcrumbs,
   Divider as MuiDivider,
@@ -185,42 +184,6 @@ function EnhancedTableHead(props) {
   );
 }
 
-let EnhancedTableToolbar = (props) => {
-  const { numSelected } = props;
-
-  return (
-    <Toolbar>
-      <div>
-        {numSelected > 0 ? (
-          <Typography color="inherit" variant="subtitle1">
-            {numSelected} selected
-          </Typography>
-        ) : (
-          <Typography variant="h6" id="tableTitle">
-            Gastos
-          </Typography>
-        )}
-      </div>
-      <Spacer />
-      <div>
-        {numSelected > 0 ? (
-          <Tooltip title="Delete">
-            <IconButton aria-label="Delete">
-              <DeleteIcon />
-            </IconButton>
-          </Tooltip>
-        ) : (
-          <Tooltip title="Filter list">
-            <IconButton aria-label="Filter list">
-              <FilterListIcon />
-            </IconButton>
-          </Tooltip>
-        )}
-      </div>
-    </Toolbar>
-  );
-};
-
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -296,10 +259,6 @@ function EnhancedTable({ rows }) {
     setPage(0);
   };
 
-  const handleChangeDense = (event) => {
-    setDense(event.target.checked);
-  };
-
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
   const emptyRows =
@@ -311,7 +270,6 @@ function EnhancedTable({ rows }) {
   return (
     <div>
       <Paper>
-        <EnhancedTableToolbar numSelected={selected.length} />
         <TableContainer>
           <Table
             aria-labelledby="tableTitle"
@@ -387,40 +345,32 @@ function EnhancedTable({ rows }) {
           >
             <DialogContent>
               <Grid container spacing={4}>
-                <Grid item md={12}>
+                <Grid item md={12} xs={12}>
                   <Typography variant="h2">Evento {data.nombre}</Typography>
                 </Grid>
 
-                <Grid item md={6}>
+                <Grid item md={6} xs={12}>
                   <Typography variant="subtitle1">
                     <b>Responsable:</b> {data.responsable}
                   </Typography>
                 </Grid>
-                <Grid item md={6}>
+                <Grid item md={6} xs={12}>
                   <Typography variant="subtitle1">
                     <b>Fecha:</b> {data.fecha}
                   </Typography>
                 </Grid>
-                <Grid item md={12}>
+                <Grid item md={12} xs={12}>
                   <Typography variant="subtitle1">
                     <b>Tipo:</b> {data.tipo}
                   </Typography>
                 </Grid>
-                <Grid item md={12}>
+                <Grid item md={12} xs={12}>
                   <Typography variant="subtitle1">
                     <b>Glosa:</b>
                   </Typography>
                   <Card variant="outlined">
                     <CardContent>
-                      <Typography>
-                        In esse ullamco cillum amet. Quis nulla ea aliquip elit
-                        officia culpa laborum commodo exercitation aliquip
-                        laborum laborum dolor tempor. Quis aliqua qui non
-                        aliquip voluptate aute cupidatat consectetur id. Ipsum
-                        nisi sint elit et occaecat. Fugiat sit non irure Lorem
-                        occaecat qui ex ipsum anim veniam Lorem Lorem proident
-                        ullamco.
-                      </Typography>
+                      <Typography>{data.glosa}</Typography>
                     </CardContent>
                   </Card>
                 </Grid>
@@ -460,6 +410,9 @@ function EventosTable() {
   const [open, setOpen] = React.useState(false);
   const [addEvent, { newData, errorMutation }] = useMutation(ADD_EVENT);
 
+  const [fullWidth, setFullWidth] = React.useState(true);
+  const [maxWidth, setMaxWidth] = React.useState("sm");
+
   if (errorMutation) {
     console.log(error);
   }
@@ -479,6 +432,7 @@ function EventosTable() {
   const dateRef = React.useRef(null);
   const responsableRef = React.useRef(null);
   const info_adicionalRef = React.useRef(null);
+  const glosaRef = React.useRef(null);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -498,25 +452,26 @@ function EventosTable() {
           fecha: dateRef.current.value,
           responsable: responsableRef.current.value,
           info_adicional: info_adicionalRef.current.value,
+          glosa: glosaRef.current.value,
         },
       },
     });
     setOpen(false);
+    window.location.reload(false);
   };
 
   return (
     <React.Fragment>
-      <Helmet title="Registro eventos" />
+      <Helmet title="Eventos" />
       <Grid container spacing={6}>
-        <Grid item xs={12} lg={5}>
+        <Grid item xs={6} lg={5}>
           <Typography variant="h3" gutterBottom display="inline">
             Eventos condominio
           </Typography>
         </Grid>
-        <Grid item xs={12} lg={3}></Grid>
-        <Grid item xs={12} lg={3}>
+        <Grid item xs={1} lg={3}></Grid>
+        <Grid item xs={5} lg={3}>
           <Box
-            m={1}
             //margin
             display="flex"
             justifyContent="flex-end"
@@ -533,7 +488,12 @@ function EventosTable() {
           </Box>
         </Grid>
 
-        <Dialog open={open} onClose={handleClose}>
+        <Dialog
+          open={open}
+          onClose={handleClose}
+          fullWidth={fullWidth}
+          maxWidth={maxWidth}
+        >
           <DialogTitle>Ingresar Evento</DialogTitle>
           <DialogContent>
             <InputLabel shrink>Nombre</InputLabel>
@@ -576,6 +536,15 @@ function EventosTable() {
             <InputLabel shrink>Información adicional</InputLabel>
             <TextField
               inputRef={info_adicionalRef}
+              margin="dense"
+              id="info_adicional"
+              type="text"
+              fullWidth
+              variant="outlined"
+            />
+            <InputLabel shrink>Glosa</InputLabel>
+            <TextField
+              inputRef={glosaRef}
               margin="dense"
               id="info_adicional"
               type="text"

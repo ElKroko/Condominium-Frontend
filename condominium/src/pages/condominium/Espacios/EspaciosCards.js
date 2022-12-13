@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components/macro";
 import { NavLink } from "react-router-dom";
 
@@ -7,7 +7,6 @@ import {
   CardActions,
   CardContent,
   Grid,
-  Link,
   Dialog,
   DialogTitle,
   DialogContent,
@@ -46,7 +45,43 @@ const ADD_RESERVA_ESPACIO = gql`
   }
 `;
 
-function MediaCard({ espacio, descripcion, rutaimg, titleimg }) {
+const GET_ESPACIOS = gql`
+  query GetEspacios {
+    getEspacios {
+      nombre
+      reservados
+      cantidad
+    }
+  }
+`;
+
+function mapData(data) {
+  return data.map((x) => {
+    let item = {};
+    item.nombre = x.nombre;
+    item.disponible = x.cantidad - x.reservados;
+    item.disabled = item.disponible > 0 ? false : true;
+    return item;
+  });
+}
+
+function MediaCard({ espacio, index, descripcion, rutaimg, titleimg }) {
+  const { data, loading, error } = useQuery(GET_ESPACIOS);
+  let espacios = [
+    { disabled: false },
+    { disabled: false },
+    { disabled: false },
+  ];
+
+  if (data) {
+    console.log(data);
+    espacios = mapData(data.getEspacios);
+  }
+
+  if (error) {
+    console.log(error);
+  }
+
   const [open, setOpen] = React.useState(false);
   const [espaciose, setEspaciose] = React.useState("");
   const handleChange = (event) => {
@@ -64,7 +99,7 @@ function MediaCard({ espacio, descripcion, rutaimg, titleimg }) {
   const dateRef = React.useRef(null);
   const residenteRef = React.useRef(null);
 
-  const handleClickOpen = () => {
+  const handleClickOpen = (valor) => {
     setOpen(true);
   };
 
@@ -85,6 +120,17 @@ function MediaCard({ espacio, descripcion, rutaimg, titleimg }) {
       },
     });
     handleClose();
+    window.location.reload(false);
+  };
+
+  const valorBoton = React.useRef(null);
+
+  const [buttonValue, setButtonValue] = useState(null);
+
+  // Creamos un manejador de eventos para actualizar el valor del estado cuando se haga clic en un botón
+  const handleButtonClick = (event) => {
+    setButtonValue(espacio);
+    handleClickOpen();
   };
 
   const today = new Date();
@@ -96,6 +142,9 @@ function MediaCard({ espacio, descripcion, rutaimg, titleimg }) {
   )
     .toISOString()
     .substring(0, 10);
+
+  const [fullWidth, setFullWidth] = React.useState(true);
+  const [maxWidth, setMaxWidth] = React.useState("sm");
 
   return (
     <Card mb={6}>
@@ -109,12 +158,36 @@ function MediaCard({ espacio, descripcion, rutaimg, titleimg }) {
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button variant="contained" onClick={handleClickOpen} color="primary">
-          Reservar Espacio
-        </Button>
+        <Grid container>
+          <Grid item xs={7}>
+            <Button
+              id={espacio}
+              value={espacio}
+              name={espacio}
+              variant="contained"
+              onClick={(event) => handleButtonClick(event, espacio)}
+              color="primary"
+              disabled={espacios[index].disabled}
+            >
+              Reservar Espacio
+            </Button>
+          </Grid>
+          <Grid item xs={5}>
+            <Box alignItems="flex-end" display="flex" justifyContent="flex-end">
+              <Button> Disponibles: {espacios[index].disponible}</Button>
+            </Box>
+          </Grid>
+        </Grid>
       </CardActions>
-      <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Reservar Espacio</DialogTitle>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        fullWidth={fullWidth}
+        maxWidth={maxWidth}
+      >
+        <DialogTitle>
+          <Typography variant="h3">Reservar Espacio </Typography>
+        </DialogTitle>
         <DialogContent>
           <InputLabel shrink>Nombre del reservante</InputLabel>
           <TextField
@@ -149,30 +222,39 @@ function MediaCard({ espacio, descripcion, rutaimg, titleimg }) {
             variant="outlined"
           />
           <InputLabel shrink>Espacio</InputLabel>
-          <Box component="form" sx={{ display: "flex", flexWrap: "wrap" }}>
-            <FormControl style={{ minWidth: "800", margin: "dense" }}>
-              <Select
-                fullWidth
-                inputRef={espacioRef}
-                margin-top="dense"
-                variant="outlined"
-                native
-                value={espaciose}
-                onChange={handleChange}
-                input={
-                  <OutlinedInput label="Espacioes" id="demo-dialog-native" />
-                }
-              >
-                <option value={"Piscina"}>Piscina</option>
-                <option value={"Salón Multiuso"}>Salón Multiuso</option>
-                <option value={"Quincho"}>Quincho</option>
-              </Select>
-            </FormControl>
-          </Box>
+          <FormControl fullWidth>
+            <Select
+              fullWidth
+              inputRef={espacioRef}
+              margin-top="dense"
+              variant="outlined"
+              native
+              onChange={(event) => handleChange(event)}
+              input={
+                <OutlinedInput
+                  defaultValue={buttonValue}
+                  label="Espacioes"
+                  id="demo-dialog-native"
+                />
+              }
+            >
+              <option value={"Piscina"}>Piscina</option>
+              <option value={"Salon Multiuso"}>Salón Multiuso</option>
+              <option value={"Quincho"}>Quincho</option>
+            </Select>
+          </FormControl>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancelar</Button>
-          <Button onClick={handleAddReserva}>Enviar</Button>
+          <Button onClick={handleClose} variant="outlined">
+            Cancelar
+          </Button>
+          <Button
+            onClick={handleAddReserva}
+            variant="contained"
+            color="primary"
+          >
+            Enviar
+          </Button>
         </DialogActions>
       </Dialog>
     </Card>
@@ -186,6 +268,7 @@ function Cards() {
         <Grid item xs={12} md={4}>
           <MediaCard
             espacio="Piscina"
+            index={0}
             descripcion="Refréscate en nuestra piscina para residentes."
             rutaimg="/static/img/unsplash/piscina.jpg"
             titleimg="Piscina"
@@ -194,6 +277,7 @@ function Cards() {
         <Grid item xs={12} md={4}>
           <MediaCard
             espacio="Salon Multiuso"
+            index={1}
             descripcion="Un salon para todos tus eventos."
             rutaimg="/static/img/unsplash/salon.jpg"
             titleimg="Salon"
@@ -202,6 +286,7 @@ function Cards() {
         <Grid item xs={12} md={4}>
           <MediaCard
             espacio="Quincho"
+            index={2}
             descripcion="¿Un asaito?"
             rutaimg="/static/img/unsplash/quincho.jpg"
             titleimg="Quincho"

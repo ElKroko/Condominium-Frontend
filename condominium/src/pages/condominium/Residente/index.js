@@ -279,27 +279,27 @@ function ResidenteDashboard() {
 
       <Divider my={6} />
       <Spacer mb={5} />
-      <Grid container spacing={6}>
-        <Grid item xs={12} lg={8}>
+      <Grid container spacing={2}>
+        <Grid item xs={12} lg={8} order={{ xs: 3, lg: 1 }}>
           <Typography variant="h4" gutterBottom>
             {" "}
             Avisos a la Comunidad:
           </Typography>
           <Noticias avisos={avisos} />
-          <Spacer mb={30} />
+          <Spacer mb={15} />
           <Grid container spacing={6}>
-            <Grid item xs={12} lg={1} />
-            <Grid item xs={12} lg={4}>
+            <Grid item lg={1} xs={1} />
+            <Grid item xs={5} lg={4}>
               <GastosComunes />
             </Grid>
-            <Grid item xs={12} lg={2}></Grid>
-            <Grid item xs={12} lg={4}>
+            <Grid item xs={1} lg={2}></Grid>
+            <Grid item xs={5} lg={4}>
               <ReservarEspacio />
             </Grid>
           </Grid>
         </Grid>
-        <Grid item lg={1} />
-        <Grid item xs={12} lg={3} spacing={2}>
+        <Grid item lg={1} xs={0} order={{ xs: 2, lg: 2 }} />
+        <Grid item xs={12} lg={3} spacing={2} order={{ xs: 1, lg: 3 }}>
           <Details name={residente.userName} mb={5} />
           <About location={residente.location} />
           <Deuda deuda={residente.deuda} />
