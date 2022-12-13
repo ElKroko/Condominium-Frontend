@@ -120,7 +120,6 @@ function MediaCard({ espacio, descripcion, rutaimg, titleimg }) {
         </CardContent>
       </CardActionArea>
       <CardActions>
-
         <Grid container>
           <Grid item xs={12} md={6}>
             <Button
@@ -184,24 +183,24 @@ function MediaCard({ espacio, descripcion, rutaimg, titleimg }) {
           <InputLabel shrink>Espacio</InputLabel>
           <FormControl fullWidth>
             <Select
-                fullWidth
-                inputRef={espacioRef}
-                margin-top="dense"
-                variant="outlined"
-                native
-                onChange={(event) => handleChange(event)}
-                input={
-                  <OutlinedInput
-                    defaultValue={buttonValue}
-                    label="Espacioes"
-                    id="demo-dialog-native"
-                  />
-                }
-              >
-                <option value={"Piscina"}>Piscina</option>
-                <option value={"Salon Multiuso"}>Salón Multiuso</option>
-                <option value={"Quincho"}>Quincho</option>
-              </Select>
+              fullWidth
+              inputRef={espacioRef}
+              margin-top="dense"
+              variant="outlined"
+              native
+              onChange={(event) => handleChange(event)}
+              input={
+                <OutlinedInput
+                  defaultValue={buttonValue}
+                  label="Espacioes"
+                  id="demo-dialog-native"
+                />
+              }
+            >
+              <option value={"Piscina"}>Piscina</option>
+              <option value={"Salon Multiuso"}>Salón Multiuso</option>
+              <option value={"Quincho"}>Quincho</option>
+            </Select>
           </FormControl>
         </DialogContent>
         <DialogActions>
