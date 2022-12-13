@@ -462,7 +462,7 @@ function EventosTable() {
 
   return (
     <React.Fragment>
-      <Helmet title="Registro eventos" />
+      <Helmet title="Eventos" />
       <Grid container spacing={6}>
         <Grid item xs={12} lg={5}>
           <Typography variant="h3" gutterBottom display="inline">
