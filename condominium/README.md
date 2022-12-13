@@ -1,6 +1,6 @@
 # Condominium - Material UI App
 
-### Hecho por los geniales integrantes del equipo 
+Hecho por los geniales integrantes del equipo 
 ## Mañana no hay Clases
 
 - Debora Alayo
@@ -21,6 +21,3 @@ You'll need to have Node 12.0.0 or up. We recommend upgrading to the LTS version
 
 Runs the app in the development mode.
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.
-You will also see any lint errors in the console.
