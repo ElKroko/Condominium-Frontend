@@ -7,7 +7,6 @@ import {
   CardActions,
   CardContent,
   Grid,
-  Link,
   Dialog,
   DialogTitle,
   DialogContent,
@@ -21,7 +20,6 @@ import {
   OutlinedInput,
   Select,
   FormControl,
-  Box,
 } from "@material-ui/core";
 
 import { spacing } from "@material-ui/system";
@@ -107,6 +105,9 @@ function MediaCard({ espacio, descripcion, rutaimg, titleimg }) {
     .toISOString()
     .substring(0, 10);
 
+  const [fullWidth, setFullWidth] = React.useState(true);
+  const [maxWidth, setMaxWidth] = React.useState("sm");
+
   return (
     <Card mb={6}>
       <CardActionArea>
@@ -119,19 +120,34 @@ function MediaCard({ espacio, descripcion, rutaimg, titleimg }) {
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button
-          id={espacio}
-          value={espacio}
-          name={espacio}
-          variant="contained"
-          onClick={(event) => handleButtonClick(event, espacio)}
-          color="primary"
-        >
-          Reservar Espacio
-        </Button>
+
+        <Grid container>
+          <Grid item xs={12} md={6}>
+            <Button
+              id={espacio}
+              value={espacio}
+              name={espacio}
+              variant="contained"
+              onClick={(event) => handleButtonClick(event, espacio)}
+              color="primary"
+            >
+              Reservar Espacio
+            </Button>
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <Typography> Disponibles: {"0"}</Typography>
+          </Grid>
+        </Grid>
       </CardActions>
-      <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Reservar Espacio</DialogTitle>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        fullWidth={fullWidth}
+        maxWidth={maxWidth}
+      >
+        <DialogTitle>
+          <Typography variant="h3">Reservar Espacio </Typography>
+        </DialogTitle>
         <DialogContent>
           <InputLabel shrink>Nombre del reservante</InputLabel>
           <TextField
@@ -166,9 +182,8 @@ function MediaCard({ espacio, descripcion, rutaimg, titleimg }) {
             variant="outlined"
           />
           <InputLabel shrink>Espacio</InputLabel>
-          <Box component="form" sx={{ display: "flex", flexWrap: "wrap" }}>
-            <FormControl style={{ minWidth: "800", margin: "dense" }}>
-              <Select
+          <FormControl fullWidth>
+            <Select
                 fullWidth
                 inputRef={espacioRef}
                 margin-top="dense"
@@ -187,12 +202,19 @@ function MediaCard({ espacio, descripcion, rutaimg, titleimg }) {
                 <option value={"Salon Multiuso"}>Salón Multiuso</option>
                 <option value={"Quincho"}>Quincho</option>
               </Select>
-            </FormControl>
-          </Box>
+          </FormControl>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancelar</Button>
-          <Button onClick={handleAddReserva}>Enviar</Button>
+          <Button onClick={handleClose} variant="outlined">
+            Cancelar
+          </Button>
+          <Button
+            onClick={handleAddReserva}
+            variant="contained"
+            color="primary"
+          >
+            Enviar
+          </Button>
         </DialogActions>
       </Dialog>
     </Card>

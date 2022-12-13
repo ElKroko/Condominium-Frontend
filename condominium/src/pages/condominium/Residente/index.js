@@ -7,6 +7,7 @@ import { Helmet } from "react-helmet";
 
 import {
   Avatar as MuiAvatar,
+  Button,
   Box,
   Grid,
   Divider as MuiDivider,
@@ -113,10 +114,6 @@ const AboutIcon = styled.span`
   }
 `;
 const StatsIcon = styled.div`
-  position: absolute;
-  right: 16px;
-  top: 32px;
-
   svg {
     width: 32px;
     height: 32px;
@@ -154,16 +151,36 @@ function Deuda({ deuda }) {
     <Box position="relative">
       <Card mb={6} pt={2}>
         <CardContent>
-          <Typography variant="h2" gutterBottom>
-            <Box fontWeight="fontWeightRegular">$ {deuda}</Box>
-          </Typography>
+          <Grid container>
+            <Grid item mb={2}>
+              <StatsIcon>
+                <DollarSign />
+              </StatsIcon>
+            </Grid>
+            <Grid item mb={10}>
+              <Typography variant="h2" gutterBottom>
+                <Box fontWeight="fontWeightRegular">{deuda}</Box>
+              </Typography>
+            </Grid>
+          </Grid>
           <Typography variant="body2" gutterBottom mt={3} mb={0}>
             Deuda Total
           </Typography>
-
-          <StatsIcon>
-            <DollarSign />
-          </StatsIcon>
+          <Spacer mb={5} />
+          <Grid container justify="center">
+            <Button variant="contained" color="primary">
+              <Link
+                href="https://www.flow.cl/uri/pAH4kDk0Z"
+                rel="noopener noreferrer"
+                target="_blank"
+                color="inherit"
+              >
+                <Typography color="#FFFFFF" variant="subtitle1">
+                  Pagar Aqui
+                </Typography>
+              </Link>
+            </Button>
+          </Grid>
         </CardContent>
       </Card>
     </Box>
@@ -282,8 +299,8 @@ function ResidenteDashboard() {
           </Grid>
         </Grid>
         <Grid item lg={1} />
-        <Grid item xs={12} lg={3}>
-          <Details name={residente.userName} />
+        <Grid item xs={12} lg={3} spacing={2}>
+          <Details name={residente.userName} mb={5} />
           <About location={residente.location} />
           <Deuda deuda={residente.deuda} />
         </Grid>

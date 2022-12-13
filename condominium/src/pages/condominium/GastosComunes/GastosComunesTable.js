@@ -5,13 +5,6 @@ import { NavLink } from "react-router-dom";
 import Helmet from "react-helmet";
 
 import {
-  Box,
-  FormControl,
-  FormControlLabel,
-  InputLabel,
-  Select,
-  Switch,
-  MenuItem,
   Button,
   Checkbox,
   Grid,
@@ -19,9 +12,7 @@ import {
   Link,
   Dialog,
   Card,
-  DialogTitle,
   DialogContent,
-  DialogContentText,
   DialogActions,
   Breadcrumbs as MuiBreadcrumbs,
   Divider as MuiDivider,
@@ -47,7 +38,7 @@ import {
   Visibility,
 } from "@material-ui/icons";
 
-import { maxWidth, spacing } from "@material-ui/system";
+import { spacing } from "@material-ui/system";
 import { gql, useQuery } from "@apollo/client";
 
 const Divider = styled(MuiDivider)(spacing);
@@ -60,16 +51,12 @@ const Spacer = styled.div`
   flex: 1 1 100%;
 `;
 
-const ModalButton = styled(Button)`
-  background: ${(props) => props.theme.palette.primary.main};
-  color: ${(props) => props.theme.palette.common.white};
-`;
-
 const userID = "634e02da5cecb3222d4ea9fa";
 
 const GET_GASTOS = gql`
   query GetGastos {
     getGastos {
+      nombre
       glosa
       monto
       tipo
@@ -81,10 +68,11 @@ const GET_GASTOS = gql`
 function mapData(data) {
   return data.map((x) => {
     let item = {};
-    item.name = x.glosa;
+    item.name = x.nombre;
+    item.glosa = x.glosa.replaceAll(" ", "<br>");
     item.tipo = x.tipo;
     item.monto = x.monto;
-    item.vencimiento = x.vencimiento;
+    item.vencimiento = x.vencimiento.substring(0, 10);
     return item;
   });
 }
@@ -122,7 +110,7 @@ const headCells = [
     disablePadding: true,
     label: "Nombre",
   },
-  { id: "tipo", numeric: false, disablePadding: false, label: "Tipo" },
+  { id: "tipo", numeric: true, disablePadding: false, label: "Estado" },
   {
     id: "vencimiento",
     numeric: true,
@@ -177,42 +165,6 @@ function EnhancedTableHead(props) {
   );
 }
 
-let EnhancedTableToolbar = (props) => {
-  const { numSelected } = props;
-
-  return (
-    <Toolbar>
-      <div>
-        {numSelected > 0 ? (
-          <Typography color="inherit" variant="subtitle1">
-            {numSelected} selected
-          </Typography>
-        ) : (
-          <Typography variant="h6" id="tableTitle">
-            Gastos
-          </Typography>
-        )}
-      </div>
-      <Spacer />
-      <div>
-        {numSelected > 0 ? (
-          <Tooltip title="Delete">
-            <IconButton aria-label="Delete">
-              <DeleteIcon />
-            </IconButton>
-          </Tooltip>
-        ) : (
-          <Tooltip title="Filter list">
-            <IconButton aria-label="Filter list">
-              <FilterListIcon />
-            </IconButton>
-          </Tooltip>
-        )}
-      </div>
-    </Toolbar>
-  );
-};
-
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -226,9 +178,13 @@ function EnhancedTable({ rows }) {
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [open, setOpen] = React.useState(false);
 
-  const handleClickOpen = () => {
+  const [data, setData] = React.useState({});
+
+  const handleClickOpen = (event, row) => {
+    setData(row);
     setOpen(true);
   };
+
   const handleClose = () => {
     setOpen(false);
   };
@@ -289,13 +245,12 @@ function EnhancedTable({ rows }) {
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
-  const [fullWidth, setFullWidth] = React.useState(true);
-  const [maxWidth, setMaxWidth] = React.useState("sm");
+  const [fullWidth] = React.useState(true);
+  const [maxWidth] = React.useState("sm");
 
   return (
     <div>
       <Paper>
-        <EnhancedTableToolbar numSelected={selected.length} />
         <TableContainer>
           <Table
             aria-labelledby="tableTitle"
@@ -344,7 +299,10 @@ function EnhancedTable({ rows }) {
                       <TableCell align="right">{row.tipo}</TableCell>
                       <TableCell align="right">{row.vencimiento}</TableCell>
                       <TableCell align="right">${row.monto}</TableCell>
-                      <IconButton onClick={handleClickOpen} edge="false">
+                      <IconButton
+                        onClick={(event) => handleClickOpen(event, row)}
+                        edge="false"
+                      >
                         <Visibility />
                       </IconButton>
                     </TableRow>
@@ -367,46 +325,35 @@ function EnhancedTable({ rows }) {
           >
             <DialogContent>
               <Grid container spacing={4}>
-                <Grid item md={12}>
-                  <Typography variant="h2">Gasto Comun Nombre</Typography>
+                <Grid item xs={12}>
+                  <Typography variant="h2">Gasto comun {data.name}</Typography>
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <Typography variant="subtitle1">
+                    <b>Vencimiento:</b> {data.vencimiento}
+                  </Typography>
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <Typography variant="subtitle1">
+                    <b>Estado:</b> {data.tipo}
+                  </Typography>
                 </Grid>
 
-                <Grid item xs={4}>
-                  <Typography variant="subtitle1">
-                    <b>Residente:</b> {"Don Jose"}
-                  </Typography>
-                </Grid>
-                <Grid item xs={3}>
-                  <Typography variant="subtitle1">
-                    <b>ID:</b> {"12312451"}
-                  </Typography>
-                </Grid>
-                <Grid item xs={5}>
-                  <Typography sx={{ fontWeight: "bold", fontSize: "default" }}>
-                    <b>Vencimiento:</b> {"04/12/2023"}
-                  </Typography>
-                </Grid>
                 <Grid item xs={12}>
                   <Typography variant="subtitle1">
                     <b>Glosa:</b>{" "}
                   </Typography>
                   <Card variant="outlined">
                     <CardContent>
-                      <Typography>
-                        In esse ullamco cillum amet. Quis nulla ea aliquip elit
-                        officia culpa laborum commodo exercitation aliquip
-                        laborum laborum dolor tempor. Quis aliqua qui non
-                        aliquip voluptate aute cupidatat consectetur id. Ipsum
-                        nisi sint elit et occaecat. Fugiat sit non irure Lorem
-                        occaecat qui ex ipsum anim veniam Lorem Lorem proident
-                        ullamco.
-                      </Typography>
+                      <Typography
+                        dangerouslySetInnerHTML={{ __html: data.glosa }}
+                      />
                     </CardContent>
                   </Card>
                 </Grid>
                 <Grid item xs={12}>
                   <Typography variant="subtitle1" component="h3">
-                    <b>Monto:</b> $ {"12938471289"}
+                    <b>Monto:</b> $ {data.monto}
                   </Typography>
                 </Grid>
               </Grid>
