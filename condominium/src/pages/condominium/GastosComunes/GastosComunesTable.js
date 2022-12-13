@@ -326,7 +326,12 @@ function EnhancedTable({ rows }) {
             <DialogContent>
               <Grid container spacing={4}>
                 <Grid item xs={12}>
-                  <Typography variant="h2">Gasto comun {data.name}</Typography>
+                  <Typography variant="h2">Gasto comun</Typography>
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <Typography variant="subtitle1">
+                    <b>Nombre:</b> {data.name}
+                  </Typography>
                 </Grid>
                 <Grid item xs={12} md={6}>
                   <Typography variant="subtitle1">
@@ -412,7 +417,7 @@ function GastosComunesTable() {
 
       <Divider my={6} />
 
-      <Grid container spacing={6}>
+      <Grid container>
         <Grid item xs={12}>
           <EnhancedTable rows={gastos} />
         </Grid>
