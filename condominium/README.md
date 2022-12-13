@@ -1,4 +1,4 @@
-# Material App Pro - React Admin & Dashboard Template
+# Condominium - Material UI App 
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
