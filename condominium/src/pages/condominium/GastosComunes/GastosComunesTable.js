@@ -325,14 +325,20 @@ function EnhancedTable({ rows }) {
           >
             <DialogContent>
               <Grid container spacing={4}>
-                <Grid item md={12}>
+                <Grid item xs={12}>
                   <Typography variant="h2">Gasto comun {data.name}</Typography>
                 </Grid>
-                <Grid item xs={12}>
-                  <Typography sx={{ fontWeight: "bold", fontSize: "default" }}>
+                <Grid item xs={12} md={6}>
+                  <Typography variant="subtitle1">
                     <b>Vencimiento:</b> {data.vencimiento}
                   </Typography>
                 </Grid>
+                <Grid item xs={12} md={6}>
+                  <Typography variant="subtitle1">
+                    <b>Estado:</b> {data.tipo}
+                  </Typography>
+                </Grid>
+
                 <Grid item xs={12}>
                   <Typography variant="subtitle1">
                     <b>Glosa:</b>{" "}
