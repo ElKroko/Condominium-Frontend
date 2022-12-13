@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components/macro";
 import { NavLink } from "react-router-dom";
 
@@ -62,7 +62,7 @@ function MediaCard({ espacio, descripcion, rutaimg, titleimg }) {
   const dateRef = React.useRef(null);
   const residenteRef = React.useRef(null);
 
-  const handleClickOpen = () => {
+  const handleClickOpen = (valor) => {
     setOpen(true);
   };
 
@@ -83,6 +83,16 @@ function MediaCard({ espacio, descripcion, rutaimg, titleimg }) {
       },
     });
     handleClose();
+  };
+
+  const valorBoton = React.useRef(null);
+
+  const [buttonValue, setButtonValue] = useState(null);
+
+  // Creamos un manejador de eventos para actualizar el valor del estado cuando se haga clic en un botón
+  const handleButtonClick = (event) => {
+    setButtonValue(espacio);
+    handleClickOpen();
   };
 
   const today = new Date();
@@ -110,11 +120,15 @@ function MediaCard({ espacio, descripcion, rutaimg, titleimg }) {
         </CardContent>
       </CardActionArea>
       <CardActions>
+
         <Grid container>
           <Grid item xs={12} md={6}>
             <Button
+              id={espacio}
+              value={espacio}
+              name={espacio}
               variant="contained"
-              onClick={handleClickOpen}
+              onClick={(event) => handleButtonClick(event, espacio)}
               color="primary"
             >
               Reservar Espacio
@@ -170,21 +184,24 @@ function MediaCard({ espacio, descripcion, rutaimg, titleimg }) {
           <InputLabel shrink>Espacio</InputLabel>
           <FormControl fullWidth>
             <Select
-              fullWidth
-              inputRef={espacioRef}
-              margin-top="dense"
-              variant="outlined"
-              native
-              value={espaciose}
-              onChange={handleChange}
-              input={
-                <OutlinedInput label="Espacioes" id="demo-dialog-native" />
-              }
-            >
-              <option value={"Piscina"}>Piscina</option>
-              <option value={"Salón Multiuso"}>Salón Multiuso</option>
-              <option value={"Quincho"}>Quincho</option>
-            </Select>
+                fullWidth
+                inputRef={espacioRef}
+                margin-top="dense"
+                variant="outlined"
+                native
+                onChange={(event) => handleChange(event)}
+                input={
+                  <OutlinedInput
+                    defaultValue={buttonValue}
+                    label="Espacioes"
+                    id="demo-dialog-native"
+                  />
+                }
+              >
+                <option value={"Piscina"}>Piscina</option>
+                <option value={"Salon Multiuso"}>Salón Multiuso</option>
+                <option value={"Quincho"}>Quincho</option>
+              </Select>
           </FormControl>
         </DialogContent>
         <DialogActions>
