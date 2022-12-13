@@ -45,7 +45,43 @@ const ADD_RESERVA_ESPACIO = gql`
   }
 `;
 
-function MediaCard({ espacio, descripcion, rutaimg, titleimg }) {
+const GET_ESPACIOS = gql`
+  query GetEspacios {
+    getEspacios {
+      nombre
+      reservados
+      cantidad
+    }
+  }
+`;
+
+function mapData(data) {
+  return data.map((x) => {
+    let item = {};
+    item.nombre = x.nombre;
+    item.disponible = x.cantidad - x.reservados;
+    item.disabled = item.disponible > 0 ? false : true;
+    return item;
+  });
+}
+
+function MediaCard({ espacio, index, descripcion, rutaimg, titleimg }) {
+  const { data, loading, error } = useQuery(GET_ESPACIOS);
+  let espacios = [
+    { disabled: false },
+    { disabled: false },
+    { disabled: false },
+  ];
+
+  if (data) {
+    console.log(data);
+    espacios = mapData(data.getEspacios);
+  }
+
+  if (error) {
+    console.log(error);
+  }
+
   const [open, setOpen] = React.useState(false);
   const [espaciose, setEspaciose] = React.useState("");
   const handleChange = (event) => {
@@ -84,6 +120,7 @@ function MediaCard({ espacio, descripcion, rutaimg, titleimg }) {
       },
     });
     handleClose();
+    window.location.reload(false);
   };
 
   const valorBoton = React.useRef(null);
@@ -130,13 +167,14 @@ function MediaCard({ espacio, descripcion, rutaimg, titleimg }) {
               variant="contained"
               onClick={(event) => handleButtonClick(event, espacio)}
               color="primary"
+              disabled={espacios[index].disabled}
             >
               Reservar Espacio
             </Button>
           </Grid>
           <Grid item xs={12} md={5}>
             <Box alignItems="flex-end" display="flex" justifyContent="flex-end">
-              <Button> Disponibles: {"0"}</Button>
+              <Button> Disponibles: {espacios[index].disponible}</Button>
             </Box>
           </Grid>
         </Grid>
@@ -230,6 +268,7 @@ function Cards() {
         <Grid item xs={12} md={4}>
           <MediaCard
             espacio="Piscina"
+            index={0}
             descripcion="Refréscate en nuestra piscina para residentes."
             rutaimg="/static/img/unsplash/piscina.jpg"
             titleimg="Piscina"
@@ -238,6 +277,7 @@ function Cards() {
         <Grid item xs={12} md={4}>
           <MediaCard
             espacio="Salon Multiuso"
+            index={1}
             descripcion="Un salon para todos tus eventos."
             rutaimg="/static/img/unsplash/salon.jpg"
             titleimg="Salon"
@@ -246,6 +286,7 @@ function Cards() {
         <Grid item xs={12} md={4}>
           <MediaCard
             espacio="Quincho"
+            index={2}
             descripcion="¿Un asaito?"
             rutaimg="/static/img/unsplash/quincho.jpg"
             titleimg="Quincho"
