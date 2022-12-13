@@ -110,9 +110,20 @@ function MediaCard({ espacio, descripcion, rutaimg, titleimg }) {
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button variant="contained" onClick={handleClickOpen} color="primary">
-          Reservar Espacio
-        </Button>
+        <Grid container>
+          <Grid item xs={12} md={6}>
+            <Button
+              variant="contained"
+              onClick={handleClickOpen}
+              color="primary"
+            >
+              Reservar Espacio
+            </Button>
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <Typography> Disponibles: {"0"}</Typography>
+          </Grid>
+        </Grid>
       </CardActions>
       <Dialog
         open={open}
