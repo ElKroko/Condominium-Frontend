@@ -457,6 +457,7 @@ function EventosTable() {
       },
     });
     setOpen(false);
+    window.location.reload(false);
   };
 
   return (
