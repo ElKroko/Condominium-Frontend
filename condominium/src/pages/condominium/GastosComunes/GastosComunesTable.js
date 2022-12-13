@@ -398,7 +398,7 @@ function GastosComunesTable() {
 
   return (
     <React.Fragment>
-      <Helmet title="Advanced Table" />
+      <Helmet title="Gastos Comunes" />
       <Typography variant="h3" gutterBottom display="inline">
         Gastos Comunes
       </Typography>

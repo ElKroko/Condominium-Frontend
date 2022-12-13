@@ -23,10 +23,10 @@ const Header = styled.div`
   padding: ${(props) => props.theme.spacing(6)}px 0;
 `;
 
-function Pricing() {
+function Espacios() {
   return (
     <React.Fragment>
-      <Helmet title="Pricing" />
+      <Helmet title="Espacios" />
       <Typography variant="h3" gutterBottom display="inline">
         Espacios
       </Typography>
@@ -59,4 +59,4 @@ function Pricing() {
   );
 }
 
-export default Pricing;
+export default Espacios;
