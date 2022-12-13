@@ -18,6 +18,10 @@ import {
   CardMedia as MuiCardMedia,
   TextField,
   Typography,
+  OutlinedInput,
+  Select,
+  FormControl,
+  Box,
 } from "@material-ui/core";
 
 import { spacing } from "@material-ui/system";
@@ -44,6 +48,10 @@ const ADD_RESERVA_ESPACIO = gql`
 
 function MediaCard({ espacio, descripcion, rutaimg, titleimg }) {
   const [open, setOpen] = React.useState(false);
+  const [espaciose, setEspaciose] = React.useState("");
+  const handleChange = (event) => {
+    setEspaciose(event.target.value);
+  };
   const [addReserva, { newData, errorMutation }] = useMutation(
     ADD_RESERVA_ESPACIO
   );
@@ -126,18 +134,9 @@ function MediaCard({ espacio, descripcion, rutaimg, titleimg }) {
             type="date"
             required
             inputProps={{ min: minDate, max: maxDate }}
+            defaultValue={minDate}
             fullWidth
             variant="outlined"
-          />
-          <InputLabel shrink>Espacio</InputLabel>
-          <TextField
-            inputRef={espacioRef}
-            margin="dense"
-            type="text"
-            required
-            fullWidth
-            variant="outlined"
-            defaultValue="espacio"
           />
           <InputLabel shrink>Precio</InputLabel>
           <TextField
@@ -146,8 +145,30 @@ function MediaCard({ espacio, descripcion, rutaimg, titleimg }) {
             type="number"
             required
             fullWidth
+            defaultValue="500"
             variant="outlined"
           />
+          <InputLabel shrink>Espacio</InputLabel>
+          <Box component="form" sx={{ display: "flex", flexWrap: "wrap" }}>
+            <FormControl style={{ minWidth: "800", margin: "dense" }}>
+              <Select
+                fullWidth
+                inputRef={espacioRef}
+                margin-top="dense"
+                variant="outlined"
+                native
+                value={espaciose}
+                onChange={handleChange}
+                input={
+                  <OutlinedInput label="Espacioes" id="demo-dialog-native" />
+                }
+              >
+                <option value={"Piscina"}>Piscina</option>
+                <option value={"Salón Multiuso"}>Salón Multiuso</option>
+                <option value={"Quincho"}>Quincho</option>
+              </Select>
+            </FormControl>
+          </Box>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancelar</Button>
@@ -165,7 +186,7 @@ function Cards() {
         <Grid item xs={12} md={4}>
           <MediaCard
             espacio="Piscina"
-            descripcion="Refréscate en nuestra piscina exclusiva para residentes."
+            descripcion="Refréscate en nuestra piscina para residentes."
             rutaimg="/static/img/unsplash/piscina.jpg"
             titleimg="Piscina"
           />
