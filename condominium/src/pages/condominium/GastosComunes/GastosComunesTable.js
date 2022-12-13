@@ -5,13 +5,6 @@ import { NavLink } from "react-router-dom";
 import Helmet from "react-helmet";
 
 import {
-  Box,
-  FormControl,
-  FormControlLabel,
-  InputLabel,
-  Select,
-  Switch,
-  MenuItem,
   Button,
   Checkbox,
   Grid,
@@ -19,9 +12,7 @@ import {
   Link,
   Dialog,
   Card,
-  DialogTitle,
   DialogContent,
-  DialogContentText,
   DialogActions,
   Breadcrumbs as MuiBreadcrumbs,
   Divider as MuiDivider,
@@ -47,7 +38,7 @@ import {
   Visibility,
 } from "@material-ui/icons";
 
-import { maxWidth, spacing } from "@material-ui/system";
+import { spacing } from "@material-ui/system";
 import { gql, useQuery } from "@apollo/client";
 
 const Divider = styled(MuiDivider)(spacing);
@@ -58,11 +49,6 @@ const Paper = styled(MuiPaper)(spacing);
 
 const Spacer = styled.div`
   flex: 1 1 100%;
-`;
-
-const ModalButton = styled(Button)`
-  background: ${(props) => props.theme.palette.primary.main};
-  color: ${(props) => props.theme.palette.common.white};
 `;
 
 const userID = "634e02da5cecb3222d4ea9fa";
@@ -295,8 +281,8 @@ function EnhancedTable({ rows }) {
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
-  const [fullWidth, setFullWidth] = React.useState(true);
-  const [maxWidth, setMaxWidth] = React.useState("sm");
+  const [fullWidth] = React.useState(true);
+  const [maxWidth] = React.useState("sm");
 
   return (
     <div>
