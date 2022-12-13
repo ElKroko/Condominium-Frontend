@@ -97,6 +97,9 @@ function MediaCard({ espacio, descripcion, rutaimg, titleimg }) {
     .toISOString()
     .substring(0, 10);
 
+  const [fullWidth, setFullWidth] = React.useState(true);
+  const [maxWidth, setMaxWidth] = React.useState("sm");
+
   return (
     <Card mb={6}>
       <CardActionArea>
@@ -113,8 +116,15 @@ function MediaCard({ espacio, descripcion, rutaimg, titleimg }) {
           Reservar Espacio
         </Button>
       </CardActions>
-      <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Reservar Espacio</DialogTitle>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        fullWidth={fullWidth}
+        maxWidth={maxWidth}
+      >
+        <DialogTitle>
+          <Typography variant="h3">Reservar Espacio </Typography>
+        </DialogTitle>
         <DialogContent>
           <InputLabel shrink>Nombre del reservante</InputLabel>
           <TextField
@@ -149,30 +159,36 @@ function MediaCard({ espacio, descripcion, rutaimg, titleimg }) {
             variant="outlined"
           />
           <InputLabel shrink>Espacio</InputLabel>
-          <Box component="form" sx={{ display: "flex", flexWrap: "wrap" }}>
-            <FormControl style={{ minWidth: "800", margin: "dense" }}>
-              <Select
-                fullWidth
-                inputRef={espacioRef}
-                margin-top="dense"
-                variant="outlined"
-                native
-                value={espaciose}
-                onChange={handleChange}
-                input={
-                  <OutlinedInput label="Espacioes" id="demo-dialog-native" />
-                }
-              >
-                <option value={"Piscina"}>Piscina</option>
-                <option value={"Salón Multiuso"}>Salón Multiuso</option>
-                <option value={"Quincho"}>Quincho</option>
-              </Select>
-            </FormControl>
-          </Box>
+          <FormControl fullWidth>
+            <Select
+              fullWidth
+              inputRef={espacioRef}
+              margin-top="dense"
+              variant="outlined"
+              native
+              value={espaciose}
+              onChange={handleChange}
+              input={
+                <OutlinedInput label="Espacioes" id="demo-dialog-native" />
+              }
+            >
+              <option value={"Piscina"}>Piscina</option>
+              <option value={"Salón Multiuso"}>Salón Multiuso</option>
+              <option value={"Quincho"}>Quincho</option>
+            </Select>
+          </FormControl>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancelar</Button>
-          <Button onClick={handleAddReserva}>Enviar</Button>
+          <Button onClick={handleClose} variant="outlined">
+            Cancelar
+          </Button>
+          <Button
+            onClick={handleAddReserva}
+            variant="contained"
+            color="primary"
+          >
+            Enviar
+          </Button>
         </DialogActions>
       </Dialog>
     </Card>
