@@ -345,26 +345,26 @@ function EnhancedTable({ rows }) {
           >
             <DialogContent>
               <Grid container spacing={4}>
-                <Grid item md={12}>
+                <Grid item md={12} xs={12}>
                   <Typography variant="h2">Evento {data.nombre}</Typography>
                 </Grid>
 
-                <Grid item md={6}>
+                <Grid item md={6} xs={12}>
                   <Typography variant="subtitle1">
                     <b>Responsable:</b> {data.responsable}
                   </Typography>
                 </Grid>
-                <Grid item md={6}>
+                <Grid item md={6} xs={12}>
                   <Typography variant="subtitle1">
                     <b>Fecha:</b> {data.fecha}
                   </Typography>
                 </Grid>
-                <Grid item md={12}>
+                <Grid item md={12} xs={12}>
                   <Typography variant="subtitle1">
                     <b>Tipo:</b> {data.tipo}
                   </Typography>
                 </Grid>
-                <Grid item md={12}>
+                <Grid item md={12} xs={12}>
                   <Typography variant="subtitle1">
                     <b>Glosa:</b>
                   </Typography>
@@ -464,13 +464,13 @@ function EventosTable() {
     <React.Fragment>
       <Helmet title="Eventos" />
       <Grid container spacing={6}>
-        <Grid item xs={12} lg={5}>
+        <Grid item xs={6} lg={5}>
           <Typography variant="h3" gutterBottom display="inline">
             Eventos condominio
           </Typography>
         </Grid>
-        <Grid item xs={12} lg={3}></Grid>
-        <Grid item xs={12} lg={3}>
+        <Grid item xs={1} lg={3}></Grid>
+        <Grid item xs={5} lg={3}>
           <Box
             //margin
             display="flex"
