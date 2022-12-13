@@ -20,6 +20,7 @@ import {
   OutlinedInput,
   Select,
   FormControl,
+  Box,
 } from "@material-ui/core";
 
 import { spacing } from "@material-ui/system";
@@ -133,8 +134,10 @@ function MediaCard({ espacio, descripcion, rutaimg, titleimg }) {
               Reservar Espacio
             </Button>
           </Grid>
-          <Grid item xs={12} md={5} alignItems="flex-end">
-            <Button> Disponibles: {"0"}</Button>
+          <Grid item xs={12} md={5}>
+            <Box alignItems="flex-end" display="flex" justifyContent="flex-end">
+              <Button> Disponibles: {"0"}</Button>
+            </Box>
           </Grid>
         </Grid>
       </CardActions>
